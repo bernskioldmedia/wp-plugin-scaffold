@@ -25,12 +25,21 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * **************************************************************************
+ *
+ * @package BernskioldMedia\Client\PluginName
  */
+
+namespace BernskioldMedia\Client\PluginName;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+/**
+ * Class Ilmenite_PB
+ *
+ * @package BernskioldMedia\Client\PluginName
+ */
 class Ilmenite_PB {
 
 	/**
@@ -56,10 +65,17 @@ class Ilmenite_PB {
 
 
 	/**
-	 * @var The single instance of the class
+	 * Plugin Class Instance Variable
+	 *
+	 * @var object
 	 */
 	protected static $_instance = null;
 
+	/**
+	 * Plugin Instantiator
+	 *
+	 * @return object
+	 */
 	public static function instance() {
 
 	    if ( is_null( self::$_instance ) ) {
@@ -67,6 +83,7 @@ class Ilmenite_PB {
 	    }
 
 		return self::$_instance;
+
 	}
 
 	/**
@@ -88,28 +105,48 @@ class Ilmenite_PB {
 	 */
 	public function __construct() {
 
-		// Set Plugin Version
+		// Set Plugin Version.
 		$this->plugin_version = '1.0';
 
-		// Set plugin Directory
+		// Set plugin Directory.
 		$this->plugin_dir = untrailingslashit( plugin_dir_path( __FILE__ ) );
 
-		// Set Plugin URL
+		// Set Plugin URL.
 		$this->plugin_url = untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
 
-		// Load Translations
+		// Load Translations.
 		add_action( 'plugins_loaded', array( $this, 'languages' ) );
 
-		// Load Taxonomy "Services"
-		require_once( 'inc/taxonomies/class-ilpb-tax-examples.php' );
-		$this->tax_example = new ILPB_Tax_Examples;
+		// Load Custom Post Types.
+		$this->load_post_types();
 
-		// Load Custom Post Type "Testimonials"
-		require_once( 'inc/post-types/class-ilpb-cpt-examples.php' );
-		$this->cpt_example = new ILPB_CPT_Examples;
+		// Load Taxonomies.
+		$this->load_taxonomies();
 
-		// Run Activation Hook
+		// Run Activation Hook.
 		register_activation_hook( __FILE__, array( $this, 'plugin_activation' ) );
+
+	}
+
+	/**
+	 * Load Custom Post Type
+	 */
+	protected function load_post_types() {
+
+		// Load Custom Post Type "Testimonials".
+		require_once( 'classes/post-types/cpt-examples.php' );
+		new CPT_Examples;
+
+	}
+
+	/**
+	 * Load Taxonomies
+	 */
+	protected function load_taxonomies() {
+
+		// Load Taxonomy "Services".
+		require_once( 'classes/taxonomies/tax-examples.php' );
+		new Tax_Examples;
 
 	}
 
@@ -130,7 +167,7 @@ class Ilmenite_PB {
 	 */
 	public function plugin_activation() {
 
-		// Initialize all the CPTs and flush permalinks
+		// Initialize all the CPTs and flush permalinks.
 		flush_rewrite_rules();
 
 	}
@@ -173,9 +210,9 @@ class Ilmenite_PB {
 
 }
 
-function Ilmenite_PB() {
+function ilmenite_pb() {
     return Ilmenite_PB::instance();
 }
 
 // Initialize the class instance only once
-Ilmenite_PB();
+ilmenite_pb();

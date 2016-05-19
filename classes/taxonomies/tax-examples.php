@@ -1,13 +1,26 @@
 <?php
-// Exit if accessed directly
+/**
+ * Custom Taxonomy: Examples
+ *
+ * @package BernskioldMedia\Client\PluginName
+ */
+
+namespace BernskioldMedia\Client\PluginName
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Custom Taxonomy: Examples
+ * Class Tax_Examples
+ *
+ * @package BernskioldMedia\Client\PluginName
  */
-class ILPB_Tax_Examples {
+class Tax_Examples {
 
+	/**
+	 * Class Tax_Examples Constructor
+	 */
 	public function __construct() {
 
 		// Initialize the taxonomy
@@ -15,6 +28,9 @@ class ILPB_Tax_Examples {
 
 	}
 
+	/**
+	 * Register Taxonomy
+	 */
 	public function taxonomy() {
 
 		$labels = array(

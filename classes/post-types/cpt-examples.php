@@ -1,13 +1,26 @@
 <?php
-// Exit if accessed directly
+/**
+ * Custom Post Type: Examples
+ *
+ * @package BernskioldMedia\Client\PluginName
+ */
+
+namespace BernskioldMedia\Client\PluginName;
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Custom Post Type: Items
+ * Class CPT_Examples
+ *
+ * @package BernskioldMedia\Client\PluginName
  */
-class ILPB_CPT_Examples {
+class CPT_Examples {
 
+	/**
+	 * Class CPT_Examples Constructor
+	 */
 	public function __construct() {
 
 		// Initialize the Post Type
@@ -15,6 +28,9 @@ class ILPB_CPT_Examples {
 
 	}
 
+	/**
+	 * Register Post Type
+	 */
 	public function post_type() {
 
 		$labels = array(
@@ -24,7 +40,7 @@ class ILPB_CPT_Examples {
 			'name_admin_bar'        => __( 'Items', 'PLUGINTEXTDOMAINHERE' ),
 			'archives'              => __( 'Item Archives', 'PLUGINTEXTDOMAINHERE' ),
 			'parent_item_colon'     => __( 'Parent Item:', 'PLUGINTEXTDOMAINHERE' ),
-			'all_items'             => __( 'All Items', 'PLUGINTEXTDOMAINHERE' ),
+			'all_items'             => __( 'All Item', 'PLUGINTEXTDOMAINHERE' ),
 			'add_new_item'          => __( 'Add New Item', 'PLUGINTEXTDOMAINHERE' ),
 			'add_new'               => __( 'Add New', 'PLUGINTEXTDOMAINHERE' ),
 			'new_item'              => __( 'New Item', 'PLUGINTEXTDOMAINHERE' ),
