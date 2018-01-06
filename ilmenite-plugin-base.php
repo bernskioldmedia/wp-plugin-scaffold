@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: Ilmenite Plugin Base
  * Plugin URI:  http://www.ilmenite.io
  * Description: A WordPress plugin base that we use at Bernskiold Media when developing client specific plugins.
@@ -31,9 +31,16 @@
 
 namespace BernskioldMedia\Client\PluginName;
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+// Include Autoloader.
+require 'vendor/autoload.php';
 
 /**
  * Class Ilmenite_PB
@@ -43,25 +50,32 @@ if ( ! defined( 'ABSPATH' ) )
 class Ilmenite_PB {
 
 	/**
-	 * Plugin URL
+	 * Post Types
 	 *
-	 * @var string
+	 * @var \stdClass
 	 */
-	public $plugin_url = '';
+	public $post_types;
 
 	/**
-	 * Plugin Directory Path
+	 * Taxonomies
 	 *
-	 * @var string
+	 * @var \stdClass
 	 */
-	public $plugin_dir = '';
+	public $taxonomies;
+
+	/**
+	 * Monolog Logger
+	 *
+	 * @var Logger
+	 */
+	public $logger;
 
 	/**
 	 * Plugin Version Number
 	 *
 	 * @var string
 	 */
-	public $plugin_version = '';
+	const PLUGIN_VERSION = '1.0.0';
 
 
 	/**
@@ -78,9 +92,9 @@ class Ilmenite_PB {
 	 */
 	public static function instance() {
 
-	    if ( is_null( self::$_instance ) ) {
-	    	self::$_instance = new self();
-	    }
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
 
 		return self::$_instance;
 
@@ -91,28 +105,24 @@ class Ilmenite_PB {
 	 *
 	 * @since 1.2
 	 */
-	private function __clone() {}
+	private function __clone() {
+	}
 
 	/**
 	 * Unserializing instances of this class is forbidden.
 	 *
 	 * @since 1.2
 	 */
-	private function __wakeup() {}
+	private function __wakeup() {
+	}
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 
-		// Set Plugin Version.
-		$this->plugin_version = '1.0';
-
-		// Set plugin Directory.
-		$this->plugin_dir = untrailingslashit( plugin_dir_path( __FILE__ ) );
-
-		// Set Plugin URL.
-		$this->plugin_url = untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
+		// Activate the logger.
+		$this->setup_logger();
 
 		// Load Translations.
 		add_action( 'plugins_loaded', array( $this, 'languages' ) );
@@ -129,13 +139,40 @@ class Ilmenite_PB {
 	}
 
 	/**
+	 * Setup Logger
+	 *
+	 * Creates a logger for the plugin using Monolog.
+	 */
+	protected function setup_logger() {
+
+		// Set the log path.
+		$log_path = WP_CONTENT_DIR . '/logs/ilmenite-plugin-base.log';
+
+		// Create the logger.
+		$this->logger = new Logger( 'IlmenitePluginBase' );
+
+		// Define the log level depending on environment.
+		if ( ( function_exists( 'env' ) && 'development' === env( 'WP_ENV' ) ) || true === WP_DEBUG ) {
+			$log_level = LOGGER::DEBUG;
+		} else {
+			$log_level = LOGGER::ERROR;
+		}
+
+		// Set up the saving.
+		$this->logger->pushHandler( new StreamHandler( $log_path, $log_level ) );
+
+	}
+
+	/**
 	 * Load Custom Post Type
 	 */
 	protected function load_post_types() {
 
+		$this->post_types = new \stdClass();
+
 		// Load Custom Post Type "Testimonials".
-		require_once( 'classes/post-types/cpt-examples.php' );
-		new CPT_Examples;
+		require_once( 'includes/classes/post-types/class-cpt-examples.php' );
+		$this->post_types->examples = new CPT_Examples;
 
 	}
 
@@ -144,9 +181,11 @@ class Ilmenite_PB {
 	 */
 	protected function load_taxonomies() {
 
+		$this->taxonomies = new \stdClass();
+
 		// Load Taxonomy "Services".
-		require_once( 'classes/taxonomies/tax-examples.php' );
-		new Tax_Examples;
+		require_once( 'includes/classes/taxonomies/class-tax-examples.php' );
+		$this->taxonomies->examples = new Tax_Examples;
 
 	}
 
@@ -177,8 +216,8 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public function get_plugin_dir() {
-		return $this->plugin_dir;
+	public static function get_plugin_dir() {
+		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
@@ -186,17 +225,8 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public function get_plugin_url() {
-		return $this->plugin_url;
-	}
-
-	/**
-	 * Get the Plugin's Version
-	 *
-	 * @return string
-	 */
-	public function get_plugin_version() {
-		return $this->plugin_version;
+	public static function get_plugin_url() {
+		return untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
 	}
 
 	/**
@@ -204,15 +234,29 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public function get_plugin_assets_uri() {
-		return $this->plugin_url . '/assets/';
+	public static function get_plugin_assets_url() {
+		return self::get_plugin_url() . '/assets/';
+	}
+
+	/**
+	 * Get the Plugin's Version
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_version() {
+		return self::PLUGIN_VERSION;
 	}
 
 }
 
-function ilmenite_pb() {
-    return Ilmenite_PB::instance();
+/**
+ * Main Plugin Class Function
+ *
+ * @return object
+ */
+function Ilmenite_PB() {
+	return Ilmenite_PB::instance();
 }
 
-// Initialize the class instance only once
-ilmenite_pb();
+// Initialize the class instance only once.
+Ilmenite_PB();

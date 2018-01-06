@@ -1,0 +1,10 @@
+{
+  "name": "ilmenite-plugin-base",
+  "version": "1.0.0",
+  "description": "This is a simple plugin base for a WordPress plugin that we use at Bernskiold Media when creating custom plugin's for our clients.",
+  "directories": {
+    "test": "tests"
+  },
+  "author": "Bernskiold Media",
+  "license": "GPL-3.0+"
+}
