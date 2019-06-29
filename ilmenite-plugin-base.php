@@ -171,7 +171,7 @@ class Ilmenite_PB {
 
 		// Load Custom Post Type "Testimonials".
 		require_once( 'classes/post-types/class-cpt-examples.php' );
-		$this->post_types->examples = new CPT_Examples;
+		$this->post_types->examples = new CPT_Examples();
 
 	}
 
@@ -184,7 +184,7 @@ class Ilmenite_PB {
 
 		// Load Taxonomy "Services".
 		require_once( 'classes/taxonomies/class-tax-examples.php' );
-		$this->taxonomies->examples = new Tax_Examples;
+		$this->taxonomies->examples = new Tax_Examples();
 
 	}
 
