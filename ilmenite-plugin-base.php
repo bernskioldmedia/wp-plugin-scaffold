@@ -31,9 +31,6 @@
 
 namespace BernskioldMedia\Client\PluginName;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -48,33 +45,20 @@ require 'vendor/autoload.php';
  */
 class Ilmenite_PB {
 
-	/**
-	 * Post Types
-	 *
-	 * @var \stdClass
-	 */
-	public $post_types;
 
 	/**
-	 * Taxonomies
-	 *
-	 * @var \stdClass
-	 */
-	public $taxonomies;
-
-	/**
-	 * Monolog Logger
-	 *
-	 * @var Logger
-	 */
-	public $logger;
-
-	/**
-	 * Plugin Version Number
+	 * CFN Master Version
 	 *
 	 * @var string
 	 */
-	const PLUGIN_VERSION = '1.0.0';
+	protected static $version = '1.0.0';
+
+	/**
+	 * CFN Master Database Version
+	 *
+	 * @var string
+	 */
+	protected static $database_version = '1000';
 
 
 	/**
@@ -83,6 +67,13 @@ class Ilmenite_PB {
 	 * @var object
 	 */
 	protected static $_instance = null;
+
+	/**
+	 * Data Stores
+	 *
+	 * @var array
+	 */
+	protected $data_stores = [];
 
 	/**
 	 * Plugin Instantiator
@@ -120,93 +111,123 @@ class Ilmenite_PB {
 	 */
 	public function __construct() {
 
-		// Activate the logger.
-		$this->setup_logger();
+		$this->admin_includes();
+		$this->classes();
+		$this->init_hooks();
 
-		// Load Translations.
-		add_action( 'plugins_loaded', [ $this, 'languages' ] );
-
-		// Load Custom Post Types.
-		$this->load_post_types();
-
-		// Load Taxonomies.
-		$this->load_taxonomies();
-
-		// Run Activation Hook.
-		register_activation_hook( __FILE__, [ $this, 'plugin_activation' ] );
+		do_action( 'ilmenite_pb_loaded' );
 
 	}
 
 	/**
-	 * Setup Logger
-	 *
-	 * Creates a logger for the plugin using Monolog.
+	 * Hooks that are run on the time of init.
 	 */
-	protected function setup_logger() {
+	private function init_hooks() {
 
-		// Set the log path.
-		$log_path = WP_CONTENT_DIR . '/logs/ilmenite-plugin-base.log';
+		require_once 'classes/class-install.php';
+		register_activation_hook( __FILE__, [ __NAMESPACE__ . '\Install', 'install' ] );
 
-		// Create the logger.
-		$this->logger = new Logger( 'IlmenitePluginBase' );
+		add_action( 'init', [ $this, 'init' ] );
+		add_action( 'admin_init', [ $this, 'admin_init' ] );
 
-		// Define the log level depending on environment.
-		if ( ( function_exists( 'env' ) && 'development' === env( 'WP_ENV' ) ) || true === WP_DEBUG ) {
-			$log_level = LOGGER::DEBUG;
-		} else {
-			$log_level = LOGGER::ERROR;
+	}
+
+	/**
+	 * Initialize CFN Master when WordPress is initialized.
+	 *
+	 * @return void
+	 */
+	public function init() {
+
+		do_action( 'before_ilmenite_pb_init' );
+
+		// Localization support.
+		$this->load_languages();
+
+		do_action( 'ilmenite_pb_init' );
+
+	}
+
+	/**
+	 * Admin Includes
+	 *
+	 */
+	public function admin_includes() {
+		if ( is_admin() ) {
+
+
 		}
+	}
 
-		// Set up the saving.
-		$this->logger->pushHandler( new StreamHandler( $log_path, $log_level ) );
+	/**
+	 * Initialize Admin Only Features (admin_init)
+	 */
+	public function admin_init() {
+
 
 	}
 
 	/**
-	 * Load Custom Post Type
+	 * Include various includes in the system.
 	 */
-	protected function load_post_types() {
+	private function classes() {
 
-		$this->post_types = new \stdClass();
+		/**
+		 * Interfaces
+		 */
+		require_once 'classes/interfaces/class-data-interface.php';
+		require_once 'classes/interfaces/class-data-store-interface.php';
+		require_once 'classes/interfaces/class-queries-interface.php';
 
-		// Load Custom Post Type "Testimonials".
-		require_once( 'classes/post-types/class-cpt-examples.php' );
-		$this->post_types->examples = new CPT_Examples();
+
+		/**
+		 * Abstracts
+		 */
+		require_once 'classes/abstracts/abstract-custom-post-type.php';
+		require_once 'classes/abstracts/abstract-data.php';
+		require_once 'classes/abstracts/abstract-taxonomy.php';
+		require_once 'classes/abstracts/abstract-queries.php';
+
+		/**
+		 * API
+		 */
+
+		/**
+		 * Data
+		 */
+
+
+		/**
+		 * Data Stores
+		 */
+		require_once 'classes/data-stores/class-data-store-cpt.php';
+		require_once 'classes/data-stores/class-data-store-taxonomy.php';
+
+		$this->data_stores['cpt']      = new Data_Store_CPT();
+		$this->data_stores['taxonomy'] = new Data_Store_Taxonomy();
+
+		/**
+		 * Other
+		 */
+		require_once 'classes/class-log.php';
 
 	}
 
 	/**
-	 * Load Taxonomies
+	 * Load translations in the right order.
 	 */
-	protected function load_taxonomies() {
+	public function load_languages() {
 
-		$this->taxonomies = new \stdClass();
+		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
+		$locale = apply_filters( 'plugin_locale', $locale, 'PLUGINTEXTDOMAINHERE' );
 
-		// Load Taxonomy "Services".
-		require_once( 'classes/taxonomies/class-tax-examples.php' );
-		$this->taxonomies->examples = new Tax_Examples();
+		unload_textdomain( 'PLUGINTEXTDOMAINHERE' );
 
-	}
+		// Start checking in the main language dir.
+		load_textdomain( 'PLUGINTEXTDOMAINHERE', WP_LANG_DIR . '/ilmenitepb/ilmenitepb-' . $locale . '.mo' );
 
-	/**
-	 * Load Translations
-	 */
-	public function languages() {
-
+		// Otherwise, load from the plugin.
 		load_plugin_textdomain( 'PLUGINTEXTDOMAINHERE', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-	}
-
-	/**
-	 * Activation Trigger
-	 *
-	 * This code is run automatically when the WordPress
-	 * plugin is activated.
-	 */
-	public function plugin_activation() {
-
-		// Initialize all the CPTs and flush permalinks.
-		flush_rewrite_rules();
 
 	}
 
@@ -215,8 +236,19 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_dir() {
+	public static function get_path() {
 		return untrailingslashit( plugin_dir_path( __FILE__ ) );
+	}
+
+	/**
+	 * Get View Template Path
+	 *
+	 * @param string $view_name
+	 *
+	 * @return string
+	 */
+	public static function get_view_path( $view_name ) {
+		return self::get_path() . '/views/' . $view_name . '.php';
 	}
 
 	/**
@@ -224,7 +256,7 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_url() {
+	public static function get_url() {
 		return untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
 	}
 
@@ -233,8 +265,17 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_assets_url() {
-		return self::get_plugin_url() . '/assets/';
+	public static function get_assets_url() {
+		return self::get_url() . '/assets/';
+	}
+
+	/**
+	 * Get AJAX URL
+	 *
+	 * @return string
+	 */
+	public static function get_ajax_url() {
+		return admin_url( 'admin-ajax.php', 'relative' );
 	}
 
 	/**
@@ -242,8 +283,28 @@ class Ilmenite_PB {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_version() {
-		return self::PLUGIN_VERSION;
+	public static function get_version() {
+		return self::$version;
+	}
+
+	/**
+	 * Get the database version number.
+	 *
+	 * @return string
+	 */
+	public static function get_database_version() {
+		return self::$database_version;
+	}
+
+	/**
+	 * Get Data Store Object
+	 *
+	 * @param string $key
+	 *
+	 * @return \stdClass
+	 */
+	public function get_data_store( $key ) {
+		return $this->data_stores[ $key ];
 	}
 
 }
@@ -253,9 +314,9 @@ class Ilmenite_PB {
  *
  * @return object
  */
-function Ilmenite_PB() {
+function ilmenite_pb() {
 	return Ilmenite_PB::instance();
 }
 
 // Initialize the class instance only once.
-Ilmenite_PB();
+ilmenite_pb();
