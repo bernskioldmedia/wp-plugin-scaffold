@@ -196,7 +196,6 @@ class Ilmenite_PB {
 		 * Data
 		 */
 
-
 		/**
 		 * Data Stores
 		 */
@@ -209,6 +208,7 @@ class Ilmenite_PB {
 		/**
 		 * Other
 		 */
+		require_once 'classes/class-assets.php';
 		require_once 'classes/class-log.php';
 
 	}
