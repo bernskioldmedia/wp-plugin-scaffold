@@ -34,7 +34,6 @@ namespace BernskioldMedia\Client\PluginName;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -125,7 +124,7 @@ class Ilmenite_PB {
 		$this->setup_logger();
 
 		// Load Translations.
-		add_action( 'plugins_loaded', array( $this, 'languages' ) );
+		add_action( 'plugins_loaded', [ $this, 'languages' ] );
 
 		// Load Custom Post Types.
 		$this->load_post_types();
@@ -134,7 +133,7 @@ class Ilmenite_PB {
 		$this->load_taxonomies();
 
 		// Run Activation Hook.
-		register_activation_hook( __FILE__, array( $this, 'plugin_activation' ) );
+		register_activation_hook( __FILE__, [ $this, 'plugin_activation' ] );
 
 	}
 
@@ -171,7 +170,7 @@ class Ilmenite_PB {
 		$this->post_types = new \stdClass();
 
 		// Load Custom Post Type "Testimonials".
-		require_once( 'includes/classes/post-types/class-cpt-examples.php' );
+		require_once( 'classes/post-types/class-cpt-examples.php' );
 		$this->post_types->examples = new CPT_Examples;
 
 	}
@@ -184,7 +183,7 @@ class Ilmenite_PB {
 		$this->taxonomies = new \stdClass();
 
 		// Load Taxonomy "Services".
-		require_once( 'includes/classes/taxonomies/class-tax-examples.php' );
+		require_once( 'classes/taxonomies/class-tax-examples.php' );
 		$this->taxonomies->examples = new Tax_Examples;
 
 	}
