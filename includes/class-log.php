@@ -9,10 +9,10 @@
  *
  * @link    https://github.com/Seldaek/monolog/blob/HEAD/doc/01-usage.md#log-levels
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Log
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 class Log {
 
@@ -56,10 +56,10 @@ class Log {
 	protected static function configure() {
 
 		// Set the log path.
-		$log_path = ABSPATH . '../logs/ilmenitepb.log';
+		$log_path = ABSPATH . '../logs/wp-plugin-scaffold.log';
 
 		// Create the logger.
-		$logger = new Logger( 'ilmenitepb' );
+		$logger = new Logger( 'wp-plugin-scaffold' );
 
 		// Define the log level depending on environment.
 		if ( defined( 'ENABLE_LOGGING' ) && true === ENABLE_LOGGING ) {

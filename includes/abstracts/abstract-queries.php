@@ -3,7 +3,7 @@
  * Abstract Queries Functions
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Abstract_Queries
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 abstract class Queries implements Queries_Interface {
 

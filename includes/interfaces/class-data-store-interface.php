@@ -6,11 +6,11 @@
  * of whether they are CPTs, Taxonomies or Custom Tables.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package Ilmenite_PB
+ * @package WP_Plugin_Scaffold
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Interface Data_Store_Interface
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 interface Data_Store_Interface {
 

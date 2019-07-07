@@ -8,7 +8,7 @@
 
 namespace BernskioldMedia\Pliant;
 
-use BernskioldMedia\Client\PluginName\Ilmenite_PB;
+use BernskioldMedia\WP\PluginScaffold\WP_Plugin_Scaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -44,12 +44,12 @@ class Assets {
 		/**
 		 * Register Main Stylesheet.
 		 */
-		wp_register_style( 'ilmenitepb-public', Ilmenite_PB::get_assets_url() . '/styles/dist/app.css', false, Ilmenite_PB::get_version(), 'all' );
+		wp_register_style( 'wp-plugin-scaffold-public', WP_Plugin_Scaffold::get_assets_url() . '/styles/dist/app.css', false, WP_Plugin_Scaffold::get_version(), 'all' );
 
 		/**
 		 * Enqueue Stylesheets.
 		 */
-		wp_enqueue_style( 'ilmenitepb-public' );
+		wp_enqueue_style( 'wp-plugin-scaffold-public' );
 
 	}
 
@@ -61,12 +61,12 @@ class Assets {
 		/**
 		 * Register Main Stylesheet.
 		 */
-		wp_register_style( 'ilmenitepb-admin', Ilmenite_PB::get_assets_url() . '/styles/dist/admin.css', false, Ilmenite_PB::get_version(), 'all' );
+		wp_register_style( 'wp-plugin-scaffold-admin', WP_Plugin_Scaffold::get_assets_url() . '/styles/dist/admin.css', false, WP_Plugin_Scaffold::get_version(), 'all' );
 
 		/**
 		 * Enqueue Stylesheets.
 		 */
-		wp_enqueue_style( 'ilmenitepb-admin' );
+		wp_enqueue_style( 'wp-plugin-scaffold-admin' );
 
 	}
 
@@ -84,10 +84,10 @@ class Assets {
 		 * Register the main, minified
 		 * and compiled script file.
 		 */
-		wp_register_script( 'ilmenitepb-app', Ilmenite_PB::get_assets_url() . '/scripts/dist/app.js', [ 'jquery' ], Ilmenite_PB::get_version(), true );
+		wp_register_script( 'wp-plugin-scaffold-app', WP_Plugin_Scaffold::get_assets_url() . '/scripts/dist/app.js', [ 'jquery' ], WP_Plugin_Scaffold::get_version(), true );
 
 		// Enqueue.
-		wp_enqueue_script( 'ilmenitepb-app' );
+		wp_enqueue_script( 'wp-plugin-scaffold-app' );
 
 	}
 
@@ -105,10 +105,10 @@ class Assets {
 		 * Register the main, minified
 		 * and compiled script file.
 		 */
-		wp_register_script( 'ilmenitepb-admin', Ilmenite_PB::get_assets_url() . '/scripts/dist/admin.js', [ 'jquery' ], Ilmenite_PB::get_version(), true );
+		wp_register_script( 'wp-plugin-scaffold-admin', WP_Plugin_Scaffold::get_assets_url() . '/scripts/dist/admin.js', [ 'jquery' ], WP_Plugin_Scaffold::get_version(), true );
 
 		// Enqueue.
-		wp_enqueue_script( 'ilmenitepb-admin' );
+		wp_enqueue_script( 'wp-plugin-scaffold-admin' );
 
 	}
 }

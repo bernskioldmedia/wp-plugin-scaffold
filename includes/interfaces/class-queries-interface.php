@@ -6,11 +6,11 @@
  * have the same type of functions.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package Ilmenite_PB
+ * @package WP_Plugin_Scaffold
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Interface Queries_Interface
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 interface Queries_Interface {
 

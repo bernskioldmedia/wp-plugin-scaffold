@@ -14,11 +14,11 @@
  * data very predicable and easy.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package Ilmenite_PB
+ * @package WP_Plugin_Scaffold
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstract Class Data
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 abstract class Data implements Data_Interface {
 

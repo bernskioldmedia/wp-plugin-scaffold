@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Ilmenite Plugin Base
+ * Plugin Name: WP Plugin Scaffold
  * Plugin URI:  http://www.ilmenite.io
- * Description: A WordPress plugin base that we use at Bernskiold Media when developing client specific plugins.
+ * Description: A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.
  * Version:     1.0
  * Author:      Bernskiold Media
  * Author URI:  http://www.bernskioldmedia.com
- * Text Domain: PLUGINTEXTDOMAINHERE
+ * Text Domain: wp-plugin-scaffold
  * Domain Path: /languages/
  *
  * **************************************************************************
@@ -26,39 +26,38 @@
  *
  * **************************************************************************
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 
-namespace BernskioldMedia\Client\PluginName;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Include Autoloader.
 require 'vendor/autoload.php';
 
 /**
- * Class Ilmenite_PB
+ * Class WP_Plugin_Scaffold
  *
- * @package BernskioldMedia\Client\PluginName
+ * @package BernskioldMedia\WP\PluginScaffold
  */
-class Ilmenite_PB {
+class WP_Plugin_Scaffold {
 
 
 	/**
-	 * CFN Master Version
+	 * Version
 	 *
 	 * @var string
 	 */
-	protected static $version = '1.0.0';
+	protected const VERSION = '1.0.0';
 
 	/**
-	 * CFN Master Database Version
+	 * Database Version
 	 *
 	 * @var string
 	 */
-	protected static $database_version = '1000';
+	protected const DATABASE_VERSION = '1000';
 
 
 	/**
@@ -115,7 +114,7 @@ class Ilmenite_PB {
 		$this->classes();
 		$this->init_hooks();
 
-		do_action( 'ilmenite_pb_loaded' );
+		do_action( 'wp_plugin_scaffold_loaded' );
 
 	}
 
@@ -124,7 +123,7 @@ class Ilmenite_PB {
 	 */
 	private function init_hooks() {
 
-		require_once 'classes/class-install.php';
+		require_once 'includes/class-install.php';
 		register_activation_hook( __FILE__, [ __NAMESPACE__ . '\Install', 'install' ] );
 
 		add_action( 'init', [ $this, 'init' ] );
@@ -133,18 +132,18 @@ class Ilmenite_PB {
 	}
 
 	/**
-	 * Initialize CFN Master when WordPress is initialized.
+	 * Initialize when WordPress is initialized.
 	 *
 	 * @return void
 	 */
 	public function init() {
 
-		do_action( 'before_ilmenite_pb_init' );
+		do_action( 'before_wp_plugin_scaffold_init' );
 
 		// Localization support.
 		$this->load_languages();
 
-		do_action( 'ilmenite_pb_init' );
+		do_action( 'wp_plugin_scaffold_init' );
 
 	}
 
@@ -175,18 +174,18 @@ class Ilmenite_PB {
 		/**
 		 * Interfaces
 		 */
-		require_once 'classes/interfaces/class-data-interface.php';
-		require_once 'classes/interfaces/class-data-store-interface.php';
-		require_once 'classes/interfaces/class-queries-interface.php';
+		require_once 'includes/interfaces/class-data-interface.php';
+		require_once 'includes/interfaces/class-data-store-interface.php';
+		require_once 'includes/interfaces/class-queries-interface.php';
 
 
 		/**
 		 * Abstracts
 		 */
-		require_once 'classes/abstracts/abstract-custom-post-type.php';
-		require_once 'classes/abstracts/abstract-data.php';
-		require_once 'classes/abstracts/abstract-taxonomy.php';
-		require_once 'classes/abstracts/abstract-queries.php';
+		require_once 'includes/abstracts/abstract-custom-post-type.php';
+		require_once 'includes/abstracts/abstract-data.php';
+		require_once 'includes/abstracts/abstract-taxonomy.php';
+		require_once 'includes/abstracts/abstract-queries.php';
 
 		/**
 		 * API
@@ -199,8 +198,8 @@ class Ilmenite_PB {
 		/**
 		 * Data Stores
 		 */
-		require_once 'classes/data-stores/class-data-store-cpt.php';
-		require_once 'classes/data-stores/class-data-store-taxonomy.php';
+		require_once 'includes/data-stores/class-data-store-cpt.php';
+		require_once 'includes/data-stores/class-data-store-taxonomy.php';
 
 		$this->data_stores['cpt']      = new Data_Store_CPT();
 		$this->data_stores['taxonomy'] = new Data_Store_Taxonomy();
@@ -208,8 +207,8 @@ class Ilmenite_PB {
 		/**
 		 * Other
 		 */
-		require_once 'classes/class-assets.php';
-		require_once 'classes/class-log.php';
+		require_once 'includes/class-assets.php';
+		require_once 'includes/class-log.php';
 
 	}
 
@@ -219,25 +218,28 @@ class Ilmenite_PB {
 	public function load_languages() {
 
 		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
-		$locale = apply_filters( 'plugin_locale', $locale, 'PLUGINTEXTDOMAINHERE' );
+		$locale = apply_filters( 'plugin_locale', $locale, 'wp-plugin-scaffold' );
 
-		unload_textdomain( 'PLUGINTEXTDOMAINHERE' );
+		unload_textdomain( 'wp-plugin-scaffold' );
 
 		// Start checking in the main language dir.
-		load_textdomain( 'PLUGINTEXTDOMAINHERE', WP_LANG_DIR . '/ilmenitepb/ilmenitepb-' . $locale . '.mo' );
+		load_textdomain( 'wp-plugin-scaffold', WP_LANG_DIR . '/wp-plugin-scaffold/wp-plugin-scaffold-' . $locale . '.mo' );
 
 		// Otherwise, load from the plugin.
-		load_plugin_textdomain( 'PLUGINTEXTDOMAINHERE', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'wp-plugin-scaffold', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	}
 
 	/**
-	 * Get the Plugin's Directory Path
+	 * Get the path to the plugin folder, or the specified
+	 * file relative to the plugin folder home.
+	 *
+	 * @param string $file
 	 *
 	 * @return string
 	 */
-	public static function get_path() {
-		return untrailingslashit( plugin_dir_path( __FILE__ ) );
+	public static function get_path( $file = '' ) {
+		return untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/' . $file;
 	}
 
 	/**
@@ -248,25 +250,33 @@ class Ilmenite_PB {
 	 * @return string
 	 */
 	public static function get_view_path( $view_name ) {
-		return self::get_path() . '/views/' . $view_name . '.php';
+		return self::get_path( '/views/' . $view_name . '.php' );
 	}
 
 	/**
-	 * Get the Plugin's Directory URL
+	 * Get the URL to the plugin folder, or the specified
+	 * file relative to the plugin folder home.
+	 *
+	 * @param string $file
 	 *
 	 * @return string
 	 */
-	public static function get_url() {
-		return untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
+	public static function get_url( $file = '' ) {
+		$plugins_url = plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) );
+
+		return untrailingslashit( $plugins_url ) . '/' . $file;
 	}
 
 	/**
-	 * Get the Plugin's Asset Directory URL
+	 * Get the URL to the assets folder, or the specified
+	 * file relative to the assets folder home.
+	 *
+	 * @param string $file
 	 *
 	 * @return string
 	 */
-	public static function get_assets_url() {
-		return self::get_url() . '/assets/';
+	public static function get_assets_url( $file = '' ) {
+		return self::get_url( '/assets/' . $file );
 	}
 
 	/**
@@ -284,7 +294,7 @@ class Ilmenite_PB {
 	 * @return string
 	 */
 	public static function get_version() {
-		return self::$version;
+		return self::VERSION;
 	}
 
 	/**
@@ -293,7 +303,7 @@ class Ilmenite_PB {
 	 * @return string
 	 */
 	public static function get_database_version() {
-		return self::$database_version;
+		return self::DATABASE_VERSION;
 	}
 
 	/**
@@ -314,9 +324,9 @@ class Ilmenite_PB {
  *
  * @return object
  */
-function ilmenite_pb() {
-	return Ilmenite_PB::instance();
+function wp_plugin_scaffold() {
+	return WP_Plugin_Scaffold::instance();
 }
 
 // Initialize the class instance only once.
-ilmenite_pb();
+wp_plugin_scaffold();
