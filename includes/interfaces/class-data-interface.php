@@ -6,7 +6,7 @@
  * of a certain instance of an object behaves in the same way.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package WP_Plugin_Scaffold
+ * @package BernskioldMedia\WP\PluginScaffold
  * @since   1.0.0
  */
 

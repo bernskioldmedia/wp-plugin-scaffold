@@ -1,0 +1,24 @@
+##
+# Exclude from release archives.
+#
+# Here we add resources that are not needed in the download
+# for development use.
+##
+/.git                 export-ignore
+/.gitattributes       export-ignore
+/.gitignore           export-ignore
+/composer.lock        export-ignore
+/package-lock.json    export-ignore
+/vendor               export-ignore
+/node_modules         export-ignore
+.gitkeep              export-ignore
+
+##
+# Handle line endings.
+# See https://help.github.com/articles/dealing-with-line-endings/
+##
+* text eol=lf
+*.jpg binary
+*.png binary
+*.gif binary
+*.ico binary

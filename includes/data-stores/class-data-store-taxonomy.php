@@ -1,6 +1,10 @@
 <?php
 /**
  * Taxonomy
+ *
+ * @author  Bernskiold Media <info@bernskioldmedia.com>
+ * @package BernskioldMedia\WP\PluginScaffold
+ * @since   1.0.0
  */
 
 namespace BernskioldMedia\WP\PluginScaffold;
@@ -21,7 +25,14 @@ class Data_Store_Taxonomy extends Taxonomy {
 	 *
 	 * @var string
 	 */
-	protected $key = 'taxonomykey';
+	protected $key = 'type';
+
+	/**
+	 * Taxonomy Plural Key
+	 *
+	 * @var string
+	 */
+	protected $plural_key = 'types';
 
 	/**
 	 * Taxonomy Post Types
@@ -41,6 +52,8 @@ class Data_Store_Taxonomy extends Taxonomy {
 
 	/**
 	 * Register the taxonomy.
+	 *
+	 * @see https://developer.wordpress.org/reference/functions/register_taxonomy/
 	 */
 	public function register() {
 
@@ -68,6 +81,7 @@ class Data_Store_Taxonomy extends Taxonomy {
 			'labels'             => $labels,
 			'hierarchical'       => true,
 			'public'             => true,
+			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_admin_column'  => true,
 			'show_in_menu'       => true,
@@ -75,14 +89,14 @@ class Data_Store_Taxonomy extends Taxonomy {
 			'show_in_nav_menus'  => true,
 			'show_tagcloud'      => false,
 			'rewrite'            => [
-				'slug' => 'taxonomy',
+				'slug' => _x( 'types', 'types taxonomy slug ', 'wp-plugin-scaffold' ),
 			],
 			'show_in_rest'       => true,
 			'capabilities'       => [
-				'manage_terms' => 'manage_' . $this->get_key(),
-				'edit_terms'   => 'manage_' . $this->get_key(),
-				'delete_terms' => 'delete_' . $this->get_key(),
-				'assign_terms' => 'assign_' . $this->get_key(),
+				'manage_terms' => 'manage_' . $this->get_plural_key(),
+				'edit_terms'   => 'manage_' . $this->get_plural_key(),
+				'delete_terms' => 'delete_' . $this->get_plural_key(),
+				'assign_terms' => 'assign_' . $this->get_plural_key(),
 			],
 		];
 

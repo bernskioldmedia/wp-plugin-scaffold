@@ -6,7 +6,7 @@
  * have the same type of functions.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package WP_Plugin_Scaffold
+ * @package BernskioldMedia\WP\PluginScaffold
  * @since   1.0.0
  */
 

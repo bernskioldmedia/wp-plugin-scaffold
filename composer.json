@@ -1,13 +1,13 @@
 {
-  "name": "bernskioldmedia/ilmenite-plugin-base",
-  "description": "A WordPress plugin base that we use at Bernskiold Media when developing client specific plugins.",
+  "name": "bernskioldmedia/wp-plugin-scaffold",
+  "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "type": "wordpress-plugin",
   "require": {
     "monolog/monolog": "^1.23"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
-    "php/php": "^7.0"
+    "php/php": "^7.1"
   },
   "license": "GPL-3.0+",
   "authors": [

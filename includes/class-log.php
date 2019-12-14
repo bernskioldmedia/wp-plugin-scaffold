@@ -55,14 +55,17 @@ class Log {
 	 */
 	protected static function configure() {
 
-		// Set the log path.
+		// Set the log path outside of WordPress public!
 		$log_path = ABSPATH . '../logs/wp-plugin-scaffold.log';
 
 		// Create the logger.
 		$logger = new Logger( 'wp-plugin-scaffold' );
 
 		// Define the log level depending on environment.
-		if ( defined( 'ENABLE_LOGGING' ) && true === ENABLE_LOGGING ) {
+
+		if ( defined( 'LOGGING_LEVEL' ) ) {
+			$log_level = LOGGING_LEVEL;
+		} elseif ( defined( 'ENABLE_LOGGING' ) && true === ENABLE_LOGGING ) {
 			$log_level = Logger::DEBUG;
 		} else {
 			$log_level = Logger::ERROR;

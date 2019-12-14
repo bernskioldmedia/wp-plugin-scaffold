@@ -1,6 +1,10 @@
 <?php
 /**
- * Custom Post Type
+ * Data Store for Custom Post Type
+ *
+ * @author  Bernskiold Media <info@bernskioldmedia.com>
+ * @package BernskioldMedia\WP\PluginScaffold
+ * @since   1.0.0
  */
 
 namespace BernskioldMedia\WP\PluginScaffold;
@@ -21,14 +25,14 @@ class Data_Store_CPT extends Custom_Post_Type {
 	 *
 	 * @var string
 	 */
-	protected $key = 'cpts';
+	protected $key = 'cpt';
 
 	/**
-	 * Singular Key
+	 * Plural Key
 	 *
 	 * @var string
 	 */
-	protected $singular_key = 'cpt';
+	protected $plural_key = 'cpts';
 
 	/**
 	 * Data_Store_CPT constructor.
@@ -93,16 +97,16 @@ class Data_Store_CPT extends Custom_Post_Type {
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
 			'can_export'          => true,
-			'has_archive'         => 'example',
+			'has_archive'         => _x( 'example', 'examples post type archive slug', 'wp-plugin-scaffold' ),
 			'rewrite'             => [
-				'slug'       => 'example',
+				'slug'       => _x( 'example', 'examples post type single slug', 'wp-plugin-scaffold' ),
 				'with_front' => true,
 			],
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'delete_with_user'    => null,
 			'show_in_rest'        => true,
-			'capability_type'     => [ $this->get_singular_key(), $this->get_key() ],
+			'capability_type'     => [ $this->get_key(), $this->get_plural_key() ],
 		];
 
 		register_post_type( $this->get_key(), $args );

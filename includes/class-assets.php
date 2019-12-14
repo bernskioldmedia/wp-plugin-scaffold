@@ -3,12 +3,12 @@
  * Handles the loading of scripts and styles for the
  * theme through the proper enqueuing methods.
  *
- * @package BernskioldMedia\Pliant
+ * @author  Bernskiold Media <info@bernskioldmedia.com>
+ * @package BernskioldMedia\WP\PluginScaffold
+ * @since   1.0.0
  **/
 
-namespace BernskioldMedia\Pliant;
-
-use BernskioldMedia\WP\PluginScaffold\WP_Plugin_Scaffold;
+namespace BernskioldMedia\WP\PluginScaffold;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Assets Class
  *
- * @package BernskioldMedia\Pliant
+ * @package BernskioldMedia\WP\PluginScaffold
  */
 class Assets {
 

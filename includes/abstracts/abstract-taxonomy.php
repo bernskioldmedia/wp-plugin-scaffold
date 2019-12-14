@@ -10,7 +10,7 @@
  * to taxonomies or even custom tables.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package WP_Plugin_Scaffold
+ * @package BernskioldMedia\WP\PluginScaffold
  * @since   1.0.0
  */
 
@@ -30,9 +30,16 @@ abstract class Taxonomy implements Data_Store_Interface {
 	/**
 	 * Taxonomy Key
 	 *
-	 * @var
+	 * @var string
 	 */
 	protected $key;
+
+	/**
+	 * Custom Post Type Plural Key
+	 *
+	 * @var string
+	 */
+	protected $plural_key;
 
 	/**
 	 * Post types which this taxonomy is assigned to.
@@ -282,16 +289,12 @@ abstract class Taxonomy implements Data_Store_Interface {
 	}
 
 	/**
-	 * Get singular key.
-	 *
-	 * We use this for permissions checks, and for taxonomies,
-	 * there are not singular permissions. Therefore,
-	 * we return the plural key here.
+	 * Get plural Key
 	 *
 	 * @return string
 	 */
-	public function get_singular_key() {
-		return (string) $this->key;
+	public function get_plural_key() {
+		return (string) $this->plural_key;
 	}
 
 	/**

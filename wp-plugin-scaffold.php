@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WP Plugin Scaffold
- * Plugin URI:  http://www.ilmenite.io
+ * Plugin URI:  https://bernskioldmedia.com
  * Description: A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.
- * Version:     1.0
+ * Version:     1.0.0
  * Author:      Bernskiold Media
- * Author URI:  http://www.bernskioldmedia.com
+ * Author URI:  https://bernskioldmedia.com
  * Text Domain: wp-plugin-scaffold
  * Domain Path: /languages/
  *
@@ -73,6 +73,13 @@ class WP_Plugin_Scaffold {
 	 * @var array
 	 */
 	protected $data_stores = [];
+
+	/**
+	 * REST Endpoints
+	 *
+	 * @var array
+	 */
+	protected $rest_endpoints = [];
 
 	/**
 	 * Plugin Instantiator
@@ -188,10 +195,6 @@ class WP_Plugin_Scaffold {
 		require_once 'includes/abstracts/abstract-queries.php';
 
 		/**
-		 * API
-		 */
-
-		/**
 		 * Data
 		 */
 
@@ -203,6 +206,13 @@ class WP_Plugin_Scaffold {
 
 		$this->data_stores['cpt']      = new Data_Store_CPT();
 		$this->data_stores['taxonomy'] = new Data_Store_Taxonomy();
+
+		/**
+		 * REST API
+		 */
+		require_once 'includes/rest/class-rest-example.php';
+
+		$this->rest_endpoints['example'] = new REST_Example();
 
 		/**
 		 * Other
@@ -311,10 +321,21 @@ class WP_Plugin_Scaffold {
 	 *
 	 * @param string $key
 	 *
-	 * @return \stdClass
+	 * @return Data_Store_CPT|Data_Store_Taxonomy|Data_Store_CPT|Data_Store_Taxonomy
 	 */
 	public function get_data_store( $key ) {
 		return $this->data_stores[ $key ];
+	}
+
+	/**
+	 * Get REST Endpoint Object
+	 *
+	 * @param string $key
+	 *
+	 * @return REST_Example|REST_Endpoint
+	 */
+	public function get_rest_endpoint( $key ) {
+		return $this->rest_endpoints[ $key ];
 	}
 
 }

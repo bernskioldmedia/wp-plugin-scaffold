@@ -1,6 +1,19 @@
 <?php
 /**
  * Abstract Queries Functions
+ *
+ * Provides some shared functions when querying the WordPress database
+ * in various ways. Our queries classes provides a simple and DRY method of
+ * retrieving data without duplicating queries all over the place.
+ *
+ * We use static methods to make retrieval even simpler. Typically, we favor
+ * returning just IDs and then using our own classes to get the data since
+ * most of the data that we need are metadata and not covered by the main
+ * WP_Post class anyway.
+ *
+ * @author  Bernskiold Media <info@bernskioldmedia.com>
+ * @package BernskioldMedia\WP\PluginScaffold
+ * @since   1.0.0
  */
 
 namespace BernskioldMedia\WP\PluginScaffold;
@@ -10,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Abstract_Queries
+ * Class Queries
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
@@ -58,7 +71,7 @@ abstract class Queries implements Queries_Interface {
 	 * @return int
 	 */
 	public static function get_records_per_page() {
-		return (int) apply_filters( 'ilpb_records_per_page', static::$records_per_page, static::get_post_type() );
+		return (int) apply_filters( 'wpps_records_per_page', static::$records_per_page, static::get_post_type() );
 	}
 
 	/**

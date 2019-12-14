@@ -10,7 +10,7 @@
  * to taxonomies or even custom tables.
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package WP_Plugin_Scaffold
+ * @package BernskioldMedia\WP\PluginScaffold
  * @since   1.0.0
  */
 
@@ -30,14 +30,16 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 	/**
 	 * Custom Post Type Key
 	 *
-	 * @var
+	 * @var string
 	 */
 	protected $key;
 
-	/*
-	 * Custom Post Type Singular Key
+	/**
+	 * Custom Post Type Plural Key
+	 *
+	 * @var string
 	 */
-	protected $singular_key;
+	protected $plural_key;
 
 	/**
 	 * Custom_Post_Type constructor.
@@ -194,12 +196,12 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 	}
 
 	/**
-	 * Get singular Key
+	 * Get plural Key
 	 *
 	 * @return string
 	 */
-	public function get_singular_key() {
-		return (string) $this->singular_key;
+	public function get_plural_key() {
+		return (string) $this->plural_key;
 	}
 
 	/**
