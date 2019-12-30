@@ -11,11 +11,11 @@
  * @package BernskioldMedia\Equmeniakyrkan\Equmenisk
  **/
 
-const mix = require( "laravel-mix" );
+const mix = require('laravel-mix');
 
-const CopyWebpackPlugin = require( "copy-webpack-plugin" );
-const ImageminPlugin    = require( "imagemin-webpack-plugin" ).default;
-const imageminMozjpeg   = require( "imagemin-mozjpeg" );
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ImageminPlugin    = require('imagemin-webpack-plugin').default;
+const imageminMozjpeg   = require('imagemin-mozjpeg');
 
 /**************************************************************
  * Build Process
@@ -28,10 +28,10 @@ const imageminMozjpeg   = require( "imagemin-mozjpeg" );
  * Asset Directory Path
  */
 const assetPaths = {
-	scripts: "assets/scripts",
-	styles: "assets/styles",
-	images: "assets/images",
-	fonts: "assets/fonts"
+	scripts: 'assets/scripts',
+	styles: 'assets/styles',
+	images: 'assets/images',
+	fonts: 'assets/fonts',
 };
 
 /*
@@ -39,21 +39,21 @@ const assetPaths = {
  *
  * @link https://laravel-mix.com/docs/5.0/css-preprocessors
  */
-mix.options( {
+mix.options({
 	processCssUrls: false,
 	postCss: [
-		require( "postcss-custom-properties" )(),
-		require( "postcss-preset-env" )( {
+		require('postcss-custom-properties')(),
+		require('postcss-preset-env')({
 			stage: 4,
 			browsers: [
-				"> 1%",
-				"last 2 versions",
-				"ie >= 11"
+				'> 1%',
+				'last 2 versions',
+				'ie >= 11',
 			],
-			autoprefixer: { grid: true }
-		} )
-	]
-} );
+			autoprefixer: {grid: true},
+		}),
+	],
+});
 
 /*
  * Builds sources maps for assets.
@@ -65,8 +65,10 @@ mix.sourceMaps();
 /**
  * Internal JavaScript
  */
-mix.js( `${assetPaths.scripts}/src/index.js`, `${assetPaths.scripts}/dist/app.js` )
-	.js( `${assetPaths.scripts}/src/admin.js`, `${assetPaths.scripts}/dist/admin-app.js` );
+mix.js(`${assetPaths.scripts}/src/index.js`,
+		`${assetPaths.scripts}/dist/app.js`).
+		js(`${assetPaths.scripts}/src/admin.js`,
+				`${assetPaths.scripts}/dist/admin-app.js`);
 
 /*
  * Process the SCSS
@@ -76,20 +78,22 @@ mix.js( `${assetPaths.scripts}/src/index.js`, `${assetPaths.scripts}/dist/app.js
  */
 const sassConfig = {
 	sassOptions: {
-		outputStyle: "compressed",
-		indentType: "tab",
+		outputStyle: 'compressed',
+		indentType: 'tab',
 		indentWidth: 1,
-	}
+	},
 };
 
 // Process the scss files.
-mix.sass( `${assetPaths.styles}/src/app.scss`, `${assetPaths.styles}/dist`, sassConfig )
-	.sass( `${assetPaths.styles}/src/admin.scss`, `${assetPaths.styles}/dist`, sassConfig );
+mix.sass(`${assetPaths.styles}/src/app.scss`, `${assetPaths.styles}/dist`,
+		sassConfig).
+		sass(`${assetPaths.styles}/src/admin.scss`, `${assetPaths.styles}/dist`,
+				sassConfig);
 
 /**
  * Maybe enable sourcemaps
  **/
-if ( ! mix.inProduction() ) {
+if (! mix.inProduction()) {
 	mix.sourceMaps();
 }
 
@@ -99,43 +103,46 @@ if ( ! mix.inProduction() ) {
  * @link https://laravel.com/docs/6.x/mix#custom-webpack-configuration
  * @link https://webpack.js.org/configuration/
  */
-mix.webpackConfig( {
-	mode: mix.inProduction() ? "production" : "development",
-	devtool: mix.inProduction() ? "" : "source-map",
-	stats: "minimal",
+mix.webpackConfig({
+	mode: mix.inProduction() ? 'production' : 'development',
+	devtool: mix.inProduction() ? '' : 'source-map',
+	stats: 'minimal',
 	performance: {
-		hints: false
+		hints: false,
 	},
 	externals: {
-		jquery: "jQuery"
+		jquery: 'jQuery',
 	},
 	plugins: [
-		new CopyWebpackPlugin( [
-			{ from: `${assetPaths.images}/src`, to: `${assetPaths.images}/dist` }
-		] ),
-		new ImageminPlugin( {
+		new CopyWebpackPlugin([
+			{from: `${assetPaths.images}/src`, to: `${assetPaths.images}/dist`},
+		]),
+		new ImageminPlugin({
 			test: /\.(jpe?g|png|gif|svg)$/i,
-			disable: process.env.NODE_ENV !== "production",
+			disable: process.env.NODE_ENV !== 'production',
 			optipng: {
-				optimizationLevel: 3
+				optimizationLevel: 3,
 			},
 			gifsicle: {
-				optimizationLevel: 3
+				optimizationLevel: 3,
 			},
 			pngquant: {
-				quality: "65-90",
-				speed: 4
+				quality: '65-90',
+				speed: 4,
 			},
 			svgo: {
 				plugins: [
-					{ cleanupIDs: false },
-					{ removeViewBox: false },
-					{ removeUnknownsAndDefaults: false }
-				]
+					{cleanupIDs: false},
+					{removeViewBox: false},
+					{removeUnknownsAndDefaults: false},
+				],
 			},
 			plugins: [
-				imageminMozjpeg( { quality: 75 } )
-			]
-		} )
-	]
-} );
+				imageminMozjpeg({quality: 75}),
+			],
+		}),
+	],
+	watchOptions: {
+		ignored: /node_modules/,
+	},
+});
