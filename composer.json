@@ -7,7 +7,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
-    "php/php": "^7.1"
+    "php": "^7.1"
   },
   "license": "GPL-3.0+",
   "authors": [
@@ -15,5 +15,10 @@
       "name": "Bernskiold Media",
       "email": "info@bernskioldmedia.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "BernskioldMedia\\WP\\PluginScaffold\\": "src/"
+    }
+  }
 }

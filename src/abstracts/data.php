@@ -20,6 +20,9 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
+use BernskioldMedia\WP\PluginScaffold\Interfaces\Data_Interface;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -48,7 +51,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Reference to the data store.
 	 *
-	 * @var object
+	 * @var Data_Store_WP
 	 */
 	protected $data_store;
 
@@ -60,11 +63,31 @@ abstract class Data implements Data_Interface {
 	protected $data = [];
 
 	/**
+	 * @var array
+	 */
+	protected $changes = [];
+
+	/**
+	 * Set to _data on construct so we can track and reset data if needed.
+	 *
+	 * @var array
+	 */
+	protected $default_data = [];
+
+	/**
+	 * This is false until the object is read from the DB.
+	 *
+	 * @var bool
+	 */
+	protected $is_read = false;
+
+	/**
 	 * Data constructor.
 	 *
-	 * @param int|object|array $id
+	 * @param  int|object|array  $id
 	 */
-	public function __construct( $id ) {
+	public function __construct( $read = 0 ) {
+		$this->default_data = $this->data;
 	}
 
 	/**
@@ -72,7 +95,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return array
 	 */
-	public function __sleep() {
+	public function __sleep(): array {
 		return [ 'id' ];
 	}
 
@@ -86,6 +109,7 @@ abstract class Data implements Data_Interface {
 			$this->__construct( absint( $this->id ) );
 		} catch ( \Exception $e ) {
 			$this->set_id( 0 );
+			$this->set_object_read( true );
 		}
 	}
 
@@ -103,7 +127,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return int
 	 */
-	public function get_id() {
+	public function get_id(): int {
 		return $this->id;
 	}
 
@@ -112,16 +136,16 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_object_type() {
+	public function get_object_type(): string {
 		return $this->object_type;
 	}
 
 	/**
 	 * Get data store.
 	 *
-	 * @return object
+	 * @return Data_Store_WP
 	 */
-	public function get_data_store() {
+	public function get_data_store(): Data_Store_WP {
 		return $this->data_store;
 	}
 
@@ -130,7 +154,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @param $id
 	 */
-	public function set_id( $id ) {
+	public function set_id( $id ): void {
 		$this->id = absint( $id );
 	}
 
@@ -139,7 +163,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return array
 	 */
-	public function get_data() {
+	public function get_data(): array {
 		return array_merge( [
 			'id' => $this->get_id(),
 		], $this->data );
@@ -157,7 +181,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Get Property
 	 *
-	 * @param string $field_key
+	 * @param  string  $field_key
 	 *
 	 * @return mixed|null
 	 */
@@ -186,8 +210,8 @@ abstract class Data implements Data_Interface {
 	 *
 	 * Defaults to current user if no user is given.
 	 *
-	 * @param string   $type
-	 * @param null|int $user_id
+	 * @param  string    $type
+	 * @param  null|int  $user_id
 	 *
 	 * @return bool
 	 */
@@ -230,8 +254,8 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Set property
 	 *
-	 * @param string $field_key
-	 * @param mixed  $new_value
+	 * @param  string  $field_key
+	 * @param  mixed   $new_value
 	 *
 	 * @return bool|int|mixed
 	 */

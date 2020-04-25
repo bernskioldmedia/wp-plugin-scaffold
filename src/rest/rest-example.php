@@ -10,6 +10,8 @@
 namespace BernskioldMedia\WP\PluginScaffold;
 
 // Exit if accessed directly.
+use WP_REST_Response;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -21,13 +23,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class REST_Example extends REST_Endpoint {
 
-	public function __construct() {
-		parent::__construct();
-	}
-
-	protected function setup_routes() {
+	/**
+	 * Add the routes for this endpoint.
+	 */
+	protected function setup_routes(): void {
 		$this->add_route( '/example', [
-			'methods'             => $this::READABLE,
+			'methods'             => self::READABLE,
 			'callback'            => [ $this, 'get_example' ],
 			'permission_callback' => [ $this, 'has_public_access' ],
 		] );
@@ -36,10 +37,12 @@ class REST_Example extends REST_Endpoint {
 	/**
 	 * Get Example Data
 	 *
-	 * @return array
+	 * @return WP_REST_Response
 	 */
-	public function get_example() {
-		return [];
+	public function get_example(): WP_REST_Response {
+		$data = [];
+
+		return new WP_REST_Response( $data, 200 );
 	}
 
 }

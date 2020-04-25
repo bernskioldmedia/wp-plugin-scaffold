@@ -10,7 +10,7 @@
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\WP\PluginScaffold;
+namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -33,26 +33,18 @@ interface Data_Store_Interface {
 	/**
 	 * Create an item.
 	 *
-	 * @param array $args
+	 * @param  string  $name
+	 * @param  array   $args
 	 *
 	 * @return int|bool
 	 */
-	public function create( $args );
-
-	/**
-	 * Get an item.
-	 *
-	 * @param int $object_id
-	 *
-	 * @return mixed
-	 */
-	public function read( $object_id );
+	public function create( $name, $args );
 
 	/**
 	 * Update an item with new values.
 	 *
-	 * @param int          $object_id
-	 * @param array|string $args
+	 * @param  int           $object_id
+	 * @param  array|string  $args
 	 *
 	 * @return mixed
 	 */
@@ -61,7 +53,7 @@ interface Data_Store_Interface {
 	/**
 	 * Delete an item.
 	 *
-	 * @param int $object_id
+	 * @param  int  $object_id
 	 *
 	 * @return mixed
 	 */

@@ -16,6 +16,9 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
+use BernskioldMedia\WP\PluginScaffold\Exceptions\Data_Store_Exception;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -25,21 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-abstract class Custom_Post_Type implements Data_Store_Interface {
-
-	/**
-	 * Custom Post Type Key
-	 *
-	 * @var string
-	 */
-	protected $key;
-
-	/**
-	 * Custom Post Type Plural Key
-	 *
-	 * @var string
-	 */
-	protected $plural_key;
+abstract class Custom_Post_Type extends Data_Store_WP {
 
 	/**
 	 * Custom_Post_Type constructor.
@@ -54,24 +43,24 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 	 *
 	 * @return void
 	 */
-	abstract public function register();
+	abstract public function register(): void;
 
 	/**
 	 * Create Custom Post Type Object
 	 *
-	 * @param array $args
+	 * @param  string  $name
+	 * @param  array   $args
 	 *
-	 * @return bool|int
+	 * @return int
+	 * @throws Data_Store_Exception
 	 */
-	public function create( $args ) {
+	public function create( $name, $args ): int {
 
 		/**
 		 * Check that the required data for creation is set.
 		 */
-		if ( ! isset( $args['post_title'] ) ) {
-			Log::error( 'Tried to create an object, but the object name was not passed in correctly.', $args );
-
-			return false;
+		if ( ! $name ) {
+			throw new Data_Store_Exception( 'Tried to create an object, but the object name was not passed in correctly.', $args );
 		}
 
 		/**
@@ -92,12 +81,11 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 		 * Bail now if we couldn't create.
 		 */
 		if ( is_wp_error( $response ) ) {
-			Log::error( 'Tried to create an object, but it failed.', [
+			throw new Data_Store_Exception( 'Tried to create an object, but it failed.', [
 				'error'     => $response->get_error_message(),
 				'post_data' => $post_data,
 			] );
 
-			return false;
 		}
 
 		Log::info( 'Successfully created a new object.', [
@@ -110,25 +98,15 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 	}
 
 	/**
-	 * Retrieve an object from the database.
-	 *
-	 * @param int $object_id
-	 *
-	 * @return array|\WP_Post|null
-	 */
-	public function read( $object_id ) {
-		return get_post( $object_id );
-	}
-
-	/**
 	 * Updates a post.
 	 *
-	 * @param int   $object_id
-	 * @param array $args
+	 * @param  int    $object_id
+	 * @param  array  $args
 	 *
-	 * @return bool|int
+	 * @return int
+	 * @throws Data_Store_Exception
 	 */
-	public function update( $object_id, $args ) {
+	public function update( $object_id, $args ): int {
 
 		$data = wp_parse_args( $args, [
 			'ID'        => $object_id,
@@ -141,12 +119,10 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 		 * Bail now if we couldn't create.
 		 */
 		if ( is_wp_error( $response ) ) {
-			Log::error( 'Tried to update an object, but it failed.', [
+			throw new Data_Store_Exception( 'Tried to update an object, but it failed.', [
 				'error'     => $response->get_error_message(),
 				'post_data' => $data,
 			] );
-
-			return false;
 		}
 
 		Log::info( 'Successfully updated an object.', [
@@ -161,21 +137,20 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 	/**
 	 * Delete an object.
 	 *
-	 * @param int  $object_id
-	 * @param bool $skip_trash
+	 * @param  int   $object_id
+	 * @param  bool  $skip_trash
 	 *
 	 * @return bool
+	 * @throws Data_Store_Exception
 	 */
-	public function delete( $object_id, $skip_trash = false ) {
+	public function delete( $object_id, $skip_trash = false ): bool {
 		$response = wp_delete_post( $object_id, $skip_trash );
 
 		if ( false === $response ) {
-			Log::error( 'Tried to delete object, but it failed.', [
+			throw new Data_Store_Exception( 'Tried to delete object, but it failed.', [
 				'object_id'  => $object_id,
 				'skip_trash' => $skip_trash,
 			] );
-
-			return false;
 		}
 
 		Log::info( 'An object was successfully deleted.', [
@@ -186,41 +161,49 @@ abstract class Custom_Post_Type implements Data_Store_Interface {
 		return true;
 	}
 
-	/**
-	 * Get Custom_Post_Type Key
-	 *
-	 * @return string
-	 */
-	public function get_key() {
-		return (string) $this->key;
-	}
 
 	/**
-	 * Get plural Key
+	 * Check if posts exists. Returns integer if exists, or null.
 	 *
-	 * @return string
+	 * @param  string  $post_title
+	 *
+	 * @return null|int
 	 */
-	public function get_plural_key() {
-		return (string) $this->plural_key;
-	}
-
-	/**
-	 * Check if posts exists.
-	 *
-	 * @param string $post_title
-	 *
-	 * @return bool|int
-	 */
-	public function does_post_exist( $post_title ) {
+	public function does_object_exist( $post_title ): ?int {
 
 		$post = get_page_by_title( $post_title, OBJECT, $this->get_key() );
 
 		if ( null !== $post ) {
 			return (int) $post->ID;
-		} else {
-			return 0;
 		}
 
+		return null;
+
+	}
+
+	/**
+	 * Get and store terms from a taxonomy.
+	 *
+	 * @param  Data|integer  $object    Data object or object ID.
+	 * @param  string        $taxonomy  Taxonomy name e.g. product_cat.
+	 *
+	 * @return array of terms
+	 */
+	protected static function get_term_ids( $object, $taxonomy ): array {
+
+		if ( is_numeric( $object ) ) {
+			$object_id = $object;
+		} else {
+			$object_id = $object->get_id();
+		}
+
+		$terms = get_the_terms( $object_id, $taxonomy );
+
+		if ( false === $terms || is_wp_error( $terms ) ) {
+			return [];
+		}
+
+		return wp_list_pluck( $terms, 'term_id' );
 	}
 
 }

@@ -16,6 +16,9 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
+use BernskioldMedia\WP\PluginScaffold\Exceptions\Data_Store_Exception;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -25,24 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-abstract class Taxonomy implements Data_Store_Interface {
+abstract class Taxonomy extends Data_Store_WP {
 
 	/**
-	 * Taxonomy Key
-	 *
-	 * @var string
-	 */
-	protected $key;
-
-	/**
-	 * Custom Post Type Plural Key
-	 *
-	 * @var string
-	 */
-	protected $plural_key;
-
-	/**
-	 * Post types which this taxonomy is assigned to.
+	 * Post type keys which this taxonomy is assigned to.
 	 *
 	 * @var array
 	 */
@@ -66,157 +55,101 @@ abstract class Taxonomy implements Data_Store_Interface {
 	/**
 	 * Create a new term in the taxonomy.
 	 *
-	 * @param array $data
+	 * @param  string  $name
+	 * @param  array   $args
 	 *
-	 * @return bool|int
+	 * @return int
+	 * @throws Data_Store_Exception
 	 */
-	public function create( $data ) {
+	public function create( $name, $args ): int {
 
 		if ( ! isset( $data['name'] ) ) {
-			Log::error( 'Tried to create a term, but the term name was not passed correctly.', [
+			throw new Data_Store_Exception( 'Tried to create a term, but the term name was not passed correctly.', [
 				'taxonomy' => $this->get_key(),
-				'data'     => $data,
+				'name'     => $name,
+				'data'     => $args,
 			] );
-
-			return false;
 		}
 
-		$term_exists = term_exists( $data['name'], $this->get_key() );
+		$existing_term_id = $this->does_object_exist( $name );
 
-		/**
-		 * If the term exists already, we don't
-		 * create it, but return its ID.
-		 */
-		if ( $term_exists ) {
-
-			/**
-			 * Sometimes WordPress returns an array, if it does
-			 * we handle it here to always return the term ID.
-			 */
-			if ( is_array( $term_exists ) ) {
-				$existing_term_id = $term_exists['term_id'];
-			} else {
-				$existing_term_id = $term_exists;
-			}
-
-			Log::info( 'Could not create term, it already exists.', [
-				'name'     => $data['name'],
-				'term_id'  => $existing_term_id,
-				'taxonomy' => $this->get_key(),
-			] );
-
-			return $existing_term_id;
+		if ( $existing_term_id ) {
+			return $this->update( $existing_term_id, $args );
 		}
 
 		/**
 		 * Attempt to create the term.
 		 */
-		$response = wp_insert_term( $data['name'], $this->get_key() );
+		$response = wp_insert_term( $name, $this->get_key(), $args );
 
 		/**
 		 * Handle the error in term creation.
 		 */
 		if ( is_wp_error( $response ) ) {
-
-			Log::error( 'Could not create a new term.', [
+			throw new Data_Store_Exception( 'Could not create a new term.', [
 				'name'    => $data['name'],
 				'message' => $response->get_error_message(),
 			] );
-
-			return false;
-
-		} else {
-
-			Log::info( 'Successfully created a new term.', [
-				'name'    => $data['name'],
-				'term_id' => $response['term_id'],
-			] );
-
-			return (int) $response['term_id'];
-
 		}
 
-	}
+		Log::info( 'Successfully created a new term.', [
+			'name'    => $data['name'],
+			'term_id' => $response['term_id'],
+		] );
 
-	/**
-	 * Get a term.
-	 *
-	 * @param int $term_id
-	 *
-	 * @return null|\WP_Term
-	 */
-	public function read( $term_id ) {
-
-		$term = get_term_by( 'id', $term_id, $this->get_key() );
-
-		/**
-		 * Ensure that we can rely on expected output.
-		 */
-		if ( $term instanceof \WP_Term ) {
-			return $term;
-		} else {
-			Log::error( 'Tried to get a term that does not exist.', [
-				'term_id'  => $term_id,
-				'taxonomy' => $this->get_key(),
-			] );
-
-			return null;
-
-		}
+		return (int) $response['term_id'];
 
 	}
 
 	/**
 	 * Update a term.
 	 *
-	 * @param int   $term_id
-	 * @param array $data
+	 * @param  int    $term_id
+	 * @param  array  $args
 	 *
-	 * @return bool
-	 * @todo This seems to be failing.
+	 * @return int
+	 * @throws Data_Store_Exception
 	 */
-	public function update( $term_id, $data ) {
+	public function update( $term_id, $args ): int {
 
 		/**
 		 * Update the term with the data.
 		 */
-		$updated = wp_update_term( $term_id, $this->get_key(), $data );
+		$updated = wp_update_term( $term_id, $this->get_key(), $args );
 
 		/**
 		 * Handle the output for fail and success
 		 * to make it reliable and consistent.
 		 */
 		if ( is_wp_error( $updated ) ) {
-
-			Log::error( 'Could not update term.', [
+			throw new Data_Store_Exception( 'Could not update term.', [
 				'taxonomy' => $this->get_key(),
-				'name'     => $data['name'],
+				'name'     => $args['name'],
 				'term_id'  => $term_id,
 				'message'  => $updated->get_error_message(),
 			] );
-
-			return false;
-		} else {
-			Log::info( 'Successfully updated the term.', [
-				'taxonomy' => $this->get_key(),
-				'term_id'  => $term_id,
-				'name'     => $data['name'],
-			] );
-
-			return true;
 		}
+
+		Log::info( 'Successfully updated the term.', [
+			'taxonomy' => $this->get_key(),
+			'term_id'  => $term_id,
+			'name'     => $args['name'],
+		] );
+
+		return (int) $updated['term_id'];
 
 	}
 
 	/**
 	 * Delete Term
 	 *
-	 * @param int $term_id
+	 * @param  int   $term_id
+	 * @param  bool  $force_delete
 	 *
 	 * @return bool
-	 *
+	 * @throws Data_Store_Exception
 	 */
-	public function delete( $term_id ) {
+	public function delete( $term_id, $force_delete = false ): bool {
 
 		/**
 		 * For error handling...
@@ -237,13 +170,10 @@ abstract class Taxonomy implements Data_Store_Interface {
 		 * not exist.
 		 */
 		if ( false === $response ) {
-
-			Log::error( 'Tried to delete a term, but the term does not exist.', [
+			throw new Data_Store_Exception( 'Tried to delete a term, but the term does not exist.', [
 				'term_id'  => $term_id,
 				'taxonomy' => $this->get_key(),
 			] );
-
-			return false;
 		}
 
 		/**
@@ -251,12 +181,10 @@ abstract class Taxonomy implements Data_Store_Interface {
 		 * the default category in WordPress.
 		 */
 		if ( 0 === $response ) {
-			Log::error( 'Tried to delete the default category. You must not do this.', [
+			throw new Data_Store_Exception( 'Tried to delete the default category. You must not do this.', [
 				'term_id'  => $term_id,
 				'taxonomy' => $this->get_key(),
 			] );
-
-			return false;
 		}
 
 		/**
@@ -264,7 +192,7 @@ abstract class Taxonomy implements Data_Store_Interface {
 		 * does not exist.
 		 */
 		if ( is_wp_error( $response ) ) {
-			Log::error( 'Tried to delete a term, but the taxonomy did not exist.', [
+			throw new Data_Store_Exception( 'Tried to delete a term, but the taxonomy did not exist.', [
 				'taxonomy' => $this->get_key(),
 				'term_id'  => $term_id,
 			] );
@@ -280,21 +208,20 @@ abstract class Taxonomy implements Data_Store_Interface {
 	}
 
 	/**
-	 * Get Taxonomy Key
+	 * Check if the term exists.
 	 *
-	 * @return string
+	 * @param  string|int  $term
+	 *
+	 * @return int|mixed
 	 */
-	public function get_key() {
-		return (string) $this->key;
-	}
+	public function does_object_exist( $term ): ?int {
+		$term_exists = term_exists( $term, $this->get_key() );
 
-	/**
-	 * Get plural Key
-	 *
-	 * @return string
-	 */
-	public function get_plural_key() {
-		return (string) $this->plural_key;
+		if ( is_array( $term_exists ) ) {
+			return $term_exists['term_id'];
+		}
+
+		return $term_exists;
 	}
 
 	/**

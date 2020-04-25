@@ -7,7 +7,7 @@
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\WP\PluginScaffold;
+namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
