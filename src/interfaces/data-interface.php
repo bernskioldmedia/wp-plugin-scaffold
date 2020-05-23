@@ -15,9 +15,7 @@ namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
 use BernskioldMedia\WP\PluginScaffold\Data;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Interface Data_Interface
@@ -59,7 +57,7 @@ interface Data_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_object_type(): string;
+	public static function get_object_type(): string;
 
 	/**
 	 * Get data store.

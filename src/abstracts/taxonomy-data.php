@@ -20,8 +20,6 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Abstracts;
 
-use BernskioldMedia\WP\PluginScaffold\Interfaces\Data_Interface;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -29,21 +27,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-abstract class Data implements Data_Interface {
+abstract class Taxonomy_Data extends Data {
 
-	/**
-	 * ID for this object.
-	 *
-	 * @var int
-	 */
-	protected $id = 0;
-
-	/**
-	 * Object Type
-	 *
-	 * @var string
-	 */
-	protected static $object_type;
 
 	/**
 	 * Reference to the data store.
@@ -81,7 +66,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Data constructor.
 	 *
-	 * @param  int|object|array  $read
+	 * @param  int|object|array  $id
 	 */
 	public function __construct( $read = 0 ) {
 		$this->default_data = $this->data;
@@ -106,7 +91,7 @@ abstract class Data implements Data_Interface {
 			$this->__construct( absint( $this->id ) );
 		} catch ( \Exception $e ) {
 			$this->set_id( 0 );
-			$this->set_is_read( true );
+			$this->set_object_read( true );
 		}
 	}
 
@@ -133,8 +118,8 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return string
 	 */
-	public static function get_object_type(): string {
-		return self::$object_type;
+	public function get_object_type(): string {
+		return $this->object_type;
 	}
 
 	/**
@@ -149,7 +134,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Set ID.
 	 *
-	 * @param  int  $id
+	 * @param $id
 	 */
 	public function set_id( $id ): void {
 		$this->id = absint( $id );
@@ -171,7 +156,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return array
 	 */
-	public function get_data_keys(): array {
+	public function get_data_keys() {
 		return array_keys( $this->data );
 	}
 
@@ -182,7 +167,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return mixed|null
 	 */
-	protected function get_prop( string $field_key ) {
+	protected function get_prop( $field_key ) {
 		return get_field( $field_key, $this->get_id() );
 	}
 
@@ -197,7 +182,7 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return bool
 	 */
-	public function can_user( string $type, ?int $user_id = null ): bool {
+	public function can_user( $type, $user_id = null ) {
 
 		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
@@ -211,25 +196,25 @@ abstract class Data implements Data_Interface {
 
 			case 'edit':
 			case 'update':
-				$capability = 'edit_' . $this->get_data_store()->get_key();
+				$capability = 'edit_' . $this->get_data_store()->get_singular_key();
 				break;
 
 			case 'delete':
-				$capability = 'delete_' . $this->get_data_store()->get_key();
+				$capability = 'delete_' . $this->get_data_store()->get_singular_key();
 				break;
 
 			case 'view':
 			case 'access':
 			case 'read':
 			default:
-				$capability = 'read_' . $this->get_data_store()->get_key();
+				$capability = 'read_' . $this->get_data_store()->get_singular_key();
 				break;
 
 		}
 
 		$is_allowed = user_can( $user_id, $capability, $this->get_id() );
 
-		return $is_allowed;
+		return (bool) $is_allowed;
 
 	}
 
@@ -241,17 +226,8 @@ abstract class Data implements Data_Interface {
 	 *
 	 * @return bool|int|mixed
 	 */
-	protected function set_prop( string $field_key, $new_value ) {
+	protected function set_prop( $field_key, $new_value ) {
 		return update_field( $field_key, $new_value, $this->get_id() );
-	}
-
-	/**
-	 * Set object read property.
-	 *
-	 * @param  boolean  $read  Should read?.
-	 */
-	public function set_is_read( $read = true ): void {
-		$this->is_read = (bool) $read;
 	}
 
 }

@@ -14,14 +14,11 @@
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\WP\PluginScaffold;
+namespace BernskioldMedia\WP\PluginScaffold\Abstracts;
 
-use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
 use BernskioldMedia\WP\PluginScaffold\Exceptions\Data_Store_Exception;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Custom_Post_Type

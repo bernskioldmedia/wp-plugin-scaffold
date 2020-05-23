@@ -9,9 +9,7 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Interface REST_Endpoint_Interface

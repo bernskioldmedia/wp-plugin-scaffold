@@ -17,9 +17,7 @@ namespace BernskioldMedia\WP\PluginScaffold;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Log

@@ -7,14 +7,12 @@
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\WP\PluginScaffold;
+namespace BernskioldMedia\WP\PluginScaffold\Rest;
 
 // Exit if accessed directly.
 use WP_REST_Response;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class REST_Example

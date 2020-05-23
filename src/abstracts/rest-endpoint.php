@@ -7,13 +7,11 @@
  * @since   1.0.0
  */
 
-namespace BernskioldMedia\WP\PluginScaffold;
+namespace BernskioldMedia\WP\PluginScaffold\Abstracts;
 
 use BernskioldMedia\WP\PluginScaffold\Interfaces\REST_Endpoint_Interface;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class REST_Endpoint

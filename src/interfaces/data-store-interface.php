@@ -12,9 +12,7 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Interface Data_Store_Interface

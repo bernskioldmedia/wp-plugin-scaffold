@@ -14,9 +14,7 @@
 
 use BernskioldMedia\WP\PluginScaffold\Plugin;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 require_once 'autoloader.php';
 require 'vendor/autoload.php';

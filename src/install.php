@@ -7,9 +7,7 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class Install
