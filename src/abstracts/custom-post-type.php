@@ -196,4 +196,64 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		return wp_list_pluck( $terms, 'term_id' );
 	}
 
+	/**
+	 * Setup capabilities based on the defined permissions.
+	 *
+	 * @return void
+	 */
+	public static function setup_permissions(): void {
+
+		$default_permissions = [
+			'administrator' => [
+				'edit_' . static::get_key()                => true,
+				'read_' . static::get_key()                => true,
+				'delete_' . static::get_key()              => true,
+				'edit_' . static::get_plural_key()         => true,
+				'edit_others_' . static::get_plural_key()  => true,
+				'publish_' . static::get_plural_key()      => true,
+				'read_private_' . static::get_plural_key() => true,
+			],
+			'editor'        => [
+				'edit_' . static::get_key()                => true,
+				'read_' . static::get_key()                => true,
+				'delete_' . static::get_key()              => true,
+				'edit_' . static::get_plural_key()         => true,
+				'edit_others_' . static::get_plural_key()  => true,
+				'publish_' . static::get_plural_key()      => true,
+				'read_private_' . static::get_plural_key() => true,
+			],
+			'author'        => [
+				'edit_' . static::get_key()                => true,
+				'read_' . static::get_key()                => true,
+				'delete_' . static::get_key()              => true,
+				'edit_' . static::get_plural_key()         => true,
+				'edit_others_' . static::get_plural_key()  => false,
+				'publish_' . static::get_plural_key()      => true,
+				'read_private_' . static::get_plural_key() => true,
+			],
+			'contributor'   => [
+				'edit_' . static::get_key()                => true,
+				'read_' . static::get_key()                => true,
+				'delete_' . static::get_key()              => false,
+				'edit_' . static::get_plural_key()         => true,
+				'edit_others_' . static::get_plural_key()  => false,
+				'publish_' . static::get_plural_key()      => false,
+				'read_private_' . static::get_plural_key() => true,
+			],
+			'subscriber'    => [
+				'edit_' . static::get_key()                => false,
+				'read_' . static::get_key()                => true,
+				'delete_' . static::get_key()              => false,
+				'edit_' . static::get_plural_key()         => false,
+				'edit_others_' . static::get_plural_key()  => false,
+				'publish_' . static::get_plural_key()      => false,
+				'read_private_' . static::get_plural_key() => false,
+			],
+		];
+
+		$permissions = wp_parse_args( static::$permissions, $default_permissions );
+		static::add_permissions_to_roles( $permissions );
+
+	}
+
 }

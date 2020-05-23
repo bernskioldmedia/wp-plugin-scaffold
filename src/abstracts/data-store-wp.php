@@ -26,6 +26,13 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	protected static $plural_key;
 
 	/**
+	 * These permissions override the default set.
+	 *
+	 * @var array
+	 */
+	protected static $permissions = [];
+
+	/**
 	 * Custom_Post_Type constructor.
 	 */
 	public function __construct() {
@@ -78,6 +85,34 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 */
 	public static function get_plural_key(): string {
 		return static::$plural_key;
+	}
+
+	/**
+	 * Setup capabilities based on the defined permissions.
+	 *
+	 * @return void
+	 */
+	abstract public static function setup_permissions(): void;
+
+	/**
+	 * Add permissions to roles.
+	 *
+	 * @param  array  $permissions
+	 */
+	protected static function add_permissions_to_roles( array $permissions ): void {
+
+		foreach ( $permissions as $role => $capabilities ) {
+			$role = get_role( $role );
+
+			if ( ! $role ) {
+				continue;
+			}
+
+			foreach ( $capabilities as $capability => $is_granted ) {
+				$role->add_cap( $capability, $is_granted );
+			}
+		}
+
 	}
 
 }

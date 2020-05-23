@@ -239,4 +239,49 @@ abstract class Taxonomy extends Data_Store_WP {
 		return $output;
 	}
 
+	/**
+	 * Setup capabilities based on the defined permissions.
+	 *
+	 * @return void
+	 */
+	public static function setup_permissions(): void {
+
+		$default_permissions = [
+			'administrator' => [
+				'manage_' . static::get_plural_key() => true,
+				'edit_' . static::get_plural_key()   => true,
+				'delete_' . static::get_plural_key() => true,
+				'assign_' . static::get_plural_key() => true,
+			],
+			'editor'        => [
+				'manage_' . static::get_plural_key() => true,
+				'edit_' . static::get_plural_key()   => true,
+				'delete_' . static::get_plural_key() => true,
+				'assign_' . static::get_plural_key() => true,
+			],
+			'author'        => [
+				'manage_' . static::get_plural_key() => true,
+				'edit_' . static::get_plural_key()   => false,
+				'delete_' . static::get_plural_key() => false,
+				'assign_' . static::get_plural_key() => true,
+			],
+			'contributor'   => [
+				'manage_' . static::get_plural_key() => false,
+				'edit_' . static::get_plural_key()   => false,
+				'delete_' . static::get_plural_key() => false,
+				'assign_' . static::get_plural_key() => true,
+			],
+			'subscriber'    => [
+				'manage_' . static::get_plural_key() => false,
+				'edit_' . static::get_plural_key()   => false,
+				'delete_' . static::get_plural_key() => false,
+				'assign_' . static::get_plural_key() => false,
+			],
+		];
+
+		$permissions = wp_parse_args( static::$permissions, $default_permissions );
+		static::add_permissions_to_roles( $permissions );
+
+	}
+
 }
