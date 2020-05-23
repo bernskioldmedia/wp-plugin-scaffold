@@ -8,14 +8,9 @@
  * @link https://laravel.com/docs/5.6/mix
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
- * @package BernskioldMedia\Equmeniakyrkan\Equmenisk
  **/
 
-const mix = require('laravel-mix');
-
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ImageminPlugin    = require('imagemin-webpack-plugin').default;
-const imageminMozjpeg   = require('imagemin-mozjpeg');
+const mix = require( "laravel-mix" );
 
 /**************************************************************
  * Build Process
@@ -28,47 +23,60 @@ const imageminMozjpeg   = require('imagemin-mozjpeg');
  * Asset Directory Path
  */
 const assetPaths = {
-	scripts: 'assets/scripts',
-	styles: 'assets/styles',
-	images: 'assets/images',
-	fonts: 'assets/fonts',
+	scripts: "assets/scripts",
+	styles: "assets/styles",
+	images: "assets/images",
+	fonts: "assets/fonts"
 };
 
 /*
- * Set Laravel Mix options.
+ * Default Options for CSS Processing
  *
  * @link https://laravel-mix.com/docs/5.0/css-preprocessors
  */
-mix.options({
+mix.options( {
 	processCssUrls: false,
 	postCss: [
-		require('postcss-custom-properties')(),
-		require('postcss-preset-env')({
-			stage: 4,
+		require( "postcss-preset-env" )( {
+			stage: 3,
 			browsers: [
-				'> 1%',
-				'last 2 versions',
-				'ie >= 11',
-			],
-			autoprefixer: {grid: true},
-		}),
-	],
-});
+				"> 1%",
+				"last 2 versions"
+			]
+		} )
+	]
+} );
 
 /*
  * Builds sources maps for assets.
+ * if we are not in production.
  *
  * @link https://laravel.com/docs/5.6/mix#css-source-maps
  */
-mix.sourceMaps();
+if ( ! mix.inProduction() ) {
+	mix.sourceMaps();
+}
 
 /**
  * Internal JavaScript
  */
-mix.js(`${assetPaths.scripts}/src/index.js`,
-		`${assetPaths.scripts}/dist/app.js`).
-		js(`${assetPaths.scripts}/src/admin.js`,
-				`${assetPaths.scripts}/dist/admin-app.js`);
+mix.js(
+	`${assetPaths.scripts}/src/index.js`,
+	`${assetPaths.scripts}/dist/app.js`
+   )
+   .js(
+	   `${assetPaths.scripts}/src/admin.js`,
+	   `${assetPaths.scripts}/dist/admin-app.js`
+   );
+
+/**
+ * Vendor JavaScript
+ */
+/*****
+ mix.js( [
+	"node_modules/@fortawesome/fontawesome-pro/js/all.js"
+], `${assetPaths.scripts}/dist/vendor.js` );
+ *****/
 
 /*
  * Process the SCSS
@@ -78,23 +86,41 @@ mix.js(`${assetPaths.scripts}/src/index.js`,
  */
 const sassConfig = {
 	sassOptions: {
-		outputStyle: 'compressed',
-		indentType: 'tab',
-		indentWidth: 1,
-	},
+		outputStyle: "compressed"
+	}
 };
 
 // Process the scss files.
-mix.sass(`${assetPaths.styles}/src/app.scss`, `${assetPaths.styles}/dist`,
-		sassConfig).
-		sass(`${assetPaths.styles}/src/admin.scss`, `${assetPaths.styles}/dist`,
-				sassConfig);
+mix.sass(
+	`${assetPaths.styles}/src/app.scss`,
+	`${assetPaths.styles}/dist`,
+	sassConfig
+   )
+   .sass(
+	   `${assetPaths.styles}/src/admin.scss`,
+	   `${assetPaths.styles}/dist`,
+	   sassConfig
+   );
 
-/**
- * Maybe enable sourcemaps
- **/
-if (! mix.inProduction()) {
-	mix.sourceMaps();
+// Process a version for IE11.
+if ( mix.inProduction() ) {
+	mix.sass(
+		`${assetPaths.styles}/src/app-ie11.scss`,
+		`${assetPaths.styles}/dist`,
+		sassConfig,
+		[
+			require( "postcss-custom-properties" )(),
+			require( "postcss-preset-env" )( {
+				stage: 4,
+				browsers: [
+					"> 1%",
+					"last 2 versions",
+					"ie >= 11"
+				],
+				autoprefixer: { grid: true }
+			} )
+		]
+	);
 }
 
 /*
@@ -103,46 +129,17 @@ if (! mix.inProduction()) {
  * @link https://laravel.com/docs/6.x/mix#custom-webpack-configuration
  * @link https://webpack.js.org/configuration/
  */
-mix.webpackConfig({
-	mode: mix.inProduction() ? 'production' : 'development',
-	devtool: mix.inProduction() ? '' : 'source-map',
-	stats: 'minimal',
+mix.webpackConfig( {
+	mode: mix.inProduction() ? "production":"development",
+	devtool: mix.inProduction() ? "":"cheap-source-map",
+	stats: "minimal",
 	performance: {
-		hints: false,
+		hints: false
 	},
 	externals: {
-		jquery: 'jQuery',
+		jquery: "jQuery"
 	},
-	plugins: [
-		new CopyWebpackPlugin([
-			{from: `${assetPaths.images}/src`, to: `${assetPaths.images}/dist`},
-		]),
-		new ImageminPlugin({
-			test: /\.(jpe?g|png|gif|svg)$/i,
-			disable: process.env.NODE_ENV !== 'production',
-			optipng: {
-				optimizationLevel: 3,
-			},
-			gifsicle: {
-				optimizationLevel: 3,
-			},
-			pngquant: {
-				quality: '65-90',
-				speed: 4,
-			},
-			svgo: {
-				plugins: [
-					{cleanupIDs: false},
-					{removeViewBox: false},
-					{removeUnknownsAndDefaults: false},
-				],
-			},
-			plugins: [
-				imageminMozjpeg({quality: 75}),
-			],
-		}),
-	],
 	watchOptions: {
-		ignored: /node_modules/,
-	},
-});
+		ignored: /node_modules/
+	}
+} );
