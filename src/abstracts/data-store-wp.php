@@ -39,7 +39,9 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 *
 	 * @var array
 	 */
-	protected static $default_permissions = [];
+	protected static $default_permissions = [
+		'administrator' => [],
+	];
 
 	/**
 	 * Custom_Post_Type constructor.

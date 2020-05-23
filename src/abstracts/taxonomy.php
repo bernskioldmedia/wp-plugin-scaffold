@@ -36,6 +36,44 @@ abstract class Taxonomy extends Data_Store_WP {
 	protected static $post_types = [];
 
 	/**
+	 * Default permissions for the taxonomy.
+	 *
+	 * @var \bool[][]
+	 */
+	protected static $default_permissions = [
+		'administrator' => [
+			'manage' => true,
+			'assign' => true,
+			'delete' => true,
+			'edit'   => true,
+		],
+		'editor'        => [
+			'manage' => true,
+			'assign' => true,
+			'delete' => true,
+			'edit'   => true,
+		],
+		'author'        => [
+			'manage' => true,
+			'assign' => true,
+			'delete' => false,
+			'edit'   => true,
+		],
+		'contributor'   => [
+			'manage' => false,
+			'assign' => true,
+			'delete' => false,
+			'edit'   => false,
+		],
+		'subscriber'    => [
+			'manage' => false,
+			'assign' => false,
+			'delete' => false,
+			'edit'   => false,
+		],
+	];
+
+	/**
 	 * Handle the registration logic here to
 	 * set up and register the object with WordPress.
 	 *
