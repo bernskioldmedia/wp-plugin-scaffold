@@ -9,17 +9,16 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Data_Stores;
 
-use BernskioldMedia\WP\PluginScaffold\Abstracts\Taxonomy;
-use BernskioldMedia\WP\PluginScaffold\Data\CPT;
+use BernskioldMedia\WP\PluginScaffold\Abstracts;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Data_Store_Taxonomy
+ * Class Taxonomy
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-class Data_Store_Taxonomy extends Taxonomy {
+class Taxonomy extends Abstracts\Taxonomy {
 
 	/**
 	 * Taxonomy Key

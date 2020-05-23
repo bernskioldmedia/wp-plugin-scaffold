@@ -9,16 +9,16 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Data_Stores;
 
-use BernskioldMedia\WP\PluginScaffold\Abstracts\Custom_Post_Type;
+use BernskioldMedia\WP\PluginScaffold\Abstracts;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class Data_Store_CPT
+ * Class CPT
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-class Data_Store_CPT extends Custom_Post_Type {
+class CPT extends Abstracts\Custom_Post_Type {
 
 	/**
 	 * Post Type Key

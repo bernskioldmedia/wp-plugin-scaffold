@@ -52,7 +52,7 @@ abstract class Taxonomy extends Data_Store_WP {
 	 * @return int
 	 * @throws Data_Store_Exception
 	 */
-	public static function create( $name, $args ): int {
+	public static function create( $name, $args = [] ): int {
 
 		if ( ! isset( $data['name'] ) ) {
 			throw new Data_Store_Exception( 'Tried to create a term, but the term name was not passed correctly.', [
@@ -101,7 +101,7 @@ abstract class Taxonomy extends Data_Store_WP {
 	 * @return int
 	 * @throws Data_Store_Exception
 	 */
-	public static function update( $term_id, $args ): int {
+	public static function update( $term_id, $args = [] ): int {
 
 		/**
 		 * Update the term with the data.
