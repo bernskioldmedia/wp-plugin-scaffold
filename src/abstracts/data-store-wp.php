@@ -4,6 +4,8 @@ namespace BernskioldMedia\WP\PluginScaffold\Abstracts;
 
 use BernskioldMedia\WP\PluginScaffold\Interfaces\Data_Store_Interface;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Data_Store_WP
  *

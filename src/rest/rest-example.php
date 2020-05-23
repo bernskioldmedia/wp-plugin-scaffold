@@ -9,7 +9,7 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Rest;
 
-// Exit if accessed directly.
+use BernskioldMedia\WP\PluginScaffold\Abstracts\REST_Endpoint;
 use WP_REST_Response;
 
 defined( 'ABSPATH' ) || exit;

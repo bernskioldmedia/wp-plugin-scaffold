@@ -4,6 +4,8 @@ namespace BernskioldMedia\WP\PluginScaffold\Exceptions;
 
 use BernskioldMedia\WP\PluginScaffold\Log;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Data_Store_Exception
  *

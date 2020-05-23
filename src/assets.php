@@ -22,7 +22,7 @@ class Assets {
 	/**
 	 * Assets Constructor
 	 */
-	public static function init() {
+	public static function init(): void {
 
 		// Styles.
 		add_action( 'wp_enqueue_scripts', [ self::class, 'public_styles' ] );
@@ -42,7 +42,7 @@ class Assets {
 		/**
 		 * Register Main Stylesheet.
 		 */
-		wp_register_style( 'wp-plugin-scaffold-public', WP_Plugin_Scaffold::get_assets_url() . '/styles/dist/app.css', false, WP_Plugin_Scaffold::get_version(), 'all' );
+		wp_register_style( 'wp-plugin-scaffold-public', Plugin::get_assets_url() . '/styles/dist/app.css', false, Plugin::get_version(), 'all' );
 
 		/**
 		 * Enqueue Stylesheets.
@@ -59,7 +59,7 @@ class Assets {
 		/**
 		 * Register Main Stylesheet.
 		 */
-		wp_register_style( 'wp-plugin-scaffold-admin', WP_Plugin_Scaffold::get_assets_url() . '/styles/dist/admin.css', false, WP_Plugin_Scaffold::get_version(), 'all' );
+		wp_register_style( 'wp-plugin-scaffold-admin', Plugin::get_assets_url() . '/styles/dist/admin.css', false, Plugin::get_version(), 'all' );
 
 		/**
 		 * Enqueue Stylesheets.
@@ -82,7 +82,7 @@ class Assets {
 		 * Register the main, minified
 		 * and compiled script file.
 		 */
-		wp_register_script( 'wp-plugin-scaffold-app', WP_Plugin_Scaffold::get_assets_url() . '/scripts/dist/app.js', [ 'jquery' ], WP_Plugin_Scaffold::get_version(), true );
+		wp_register_script( 'wp-plugin-scaffold-app', Plugin::get_assets_url() . '/scripts/dist/app.js', [ 'jquery' ], Plugin::get_version(), true );
 
 		// Enqueue.
 		wp_enqueue_script( 'wp-plugin-scaffold-app' );
@@ -103,7 +103,7 @@ class Assets {
 		 * Register the main, minified
 		 * and compiled script file.
 		 */
-		wp_register_script( 'wp-plugin-scaffold-admin', WP_Plugin_Scaffold::get_assets_url() . '/scripts/dist/admin.js', [ 'jquery' ], WP_Plugin_Scaffold::get_version(), true );
+		wp_register_script( 'wp-plugin-scaffold-admin', Plugin::get_assets_url() . '/scripts/dist/admin.js', [ 'jquery' ], Plugin::get_version(), true );
 
 		// Enqueue.
 		wp_enqueue_script( 'wp-plugin-scaffold-admin' );
