@@ -3,38 +3,74 @@
   "version": "1.0.0",
   "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "main": "assets/scripts/src/index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "test": "phpunit",
+    "release": "npm install && composer install --no-dev -o && npm run build",
+    "setup": "composer install && npm install && npm run build",
     "build": "npm run prod && npm run i18n",
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "lint": "npm run lint:styles && npm run lint:scripts && npm run lint:php",
-    "lint:styles": "cross-env stylelint './assets/styles/**/*.scss' --syntax scss",
-    "lint:scripts": "cross-env eslint './assets/scripts/**/*.js'",
-    "lint:php": "cross-env ./vendor/bin/phpcs .",
+    "lint:styles": "cross-env stylelint './assets/styles/src/**/*.scss' --syntax scss",
+    "lint:scripts": "cross-env eslint './assets/scripts/src/**/*.js'",
+    "lint:php": "composer run lint",
+    "format": "npm run format-js",
+    "format:js": "eslint --fix assets/scripts/src",
     "i18n": "npm run i18n:textdomain && npm run i18n:pot",
     "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules --type theme",
     "i18n:pot": "npx wpi18n makepot  --domain-path ./languages/"
   },
-  "author": "Bernskiold Media",
-  "license": "GPL-2.0+",
+  "author": {
+    "name": "Bernskiold Media",
+    "email": "info@bernskioldmedia.com",
+    "url": "https://bernskioldmedia.com",
+    "role": "developer"
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint"
+    ],
+    "*.js": [
+      "eslint"
+    ]
+  },
   "devDependencies": {
+    "@wordpress/eslint-plugin": "^4.1",
     "babel-preset-react": "^6.24",
     "browser-sync": "^2.26",
     "browser-sync-webpack-plugin": "^2.2",
     "cross-env": "^6.0",
-    "eslint": "^6.8",
-    "eslint-config-wordpress": "^2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1",
+    "eslint-config-airbnb-base": "^14.1",
+    "eslint-config-prettier": "^6.10",
+    "eslint-loader": "^3.0",
+    "eslint-plugin-import": "^2.20",
+    "eslint-plugin-jsdoc": "^22.1",
+    "eslint-plugin-jsx-a11y": "^6.2",
+    "eslint-plugin-prettier": "^3.1",
+    "eslint-plugin-react": "^7.19",
+    "eslint-plugin-react-hooks": "^2.5",
+    "husky": "^3.1",
+    "lint-staged": "^9.5.0",
     "laravel-mix": "^5.0",
     "node-wp-i18n": "^1.2",
     "postcss-custom-properties": "^9.1",
     "postcss-preset-env": "^6.7",
     "sass": "^1.26",
     "sass-loader": "^8.0",
-    "stylelint": "^11.1",
-    "stylelint-config-wordpress": "^16",
+    "prettier": "^2.0",
+    "stylelint": "^9.10",
+    "stylelint-config-wordpress": "^14.0",
+    "stylelint-declaration-use-variable": "^1.7",
+    "stylelint-order": "^2.2",
+    "stylelint-webpack-plugin": "^1.1",
     "vue-template-compiler": "^2.6"
   }
 }
