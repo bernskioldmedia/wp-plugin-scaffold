@@ -48,6 +48,7 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 */
 	public function __construct() {
 		add_action( 'init', [ static::class, 'register' ], 10 );
+		add_action( 'wp_plugin_scaffold_install', [ static::class, 'register' ] );
 	}
 
 	/**
