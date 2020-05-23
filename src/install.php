@@ -24,7 +24,7 @@ class Install {
 	public static function install() {
 
 		self::scheduled_tasks();
-		User_Roles::boot();
+		User_Roles::install();
 
 		do_action( 'wp_plugin_scaffold_install' );
 

@@ -21,7 +21,7 @@ class User_Roles {
 	/**
 	 * Boot the user roles add.
 	 */
-	public static function boot(): void {
+	public static function install(): void {
 		self::remove_unused_roles();
 		self::give_admins_access_to_data_stores();
 	}
@@ -30,7 +30,7 @@ class User_Roles {
 	 * By default, we want admins to have access to any data
 	 * store that we add in this plugin.
 	 */
-	public static function give_admins_access_to_data_stores(): void {
+	protected static function give_admins_access_to_data_stores(): void {
 
 		$capabilities = [];
 		$role         = get_role( 'administrator' );
