@@ -7,6 +7,8 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+use BernskioldMedia\WP\PluginScaffold\Roles\User_Roles;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -17,18 +19,14 @@ defined( 'ABSPATH' ) || exit;
 class Install {
 
 	/**
-	 * Hooks
-	 */
-	public static function hooks() {
-
-	}
-
-	/**
 	 * Main Install Process
 	 */
 	public static function install() {
 
 		self::scheduled_tasks();
+		User_Roles::boot();
+
+		do_action( 'wp_plugin_scaffold_install' );
 
 	}
 

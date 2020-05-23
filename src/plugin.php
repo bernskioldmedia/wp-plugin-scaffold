@@ -2,6 +2,8 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class Plugin
  *
@@ -42,7 +44,7 @@ class Plugin {
 	 *
 	 * @var array
 	 */
-	protected $data_stores = [
+	public static $data_stores = [
 		Data_Stores\Taxonomy::class,
 		Data_Stores\CPT::class,
 	];
@@ -52,7 +54,7 @@ class Plugin {
 	 *
 	 * @var array
 	 */
-	protected $rest_endpoints = [];
+	public static $rest_endpoints = [];
 
 	/**
 	 * Plugin Instantiator
@@ -89,6 +91,8 @@ class Plugin {
 	 * Constructor
 	 */
 	public function __construct() {
+
+		register_activation_hook( WP_PLUGIN_SCAFFOLD_FILE_PATH, [ Install::class, 'install' ] );
 
 		do_action( 'before_wp_plugin_scaffold_loading' );
 
@@ -133,12 +137,12 @@ class Plugin {
 	public function loaders(): void {
 
 		// Data Stores.
-		foreach ( $this->data_stores as $data_store ) {
+		foreach ( self::$data_stores as $data_store ) {
 			new $data_store();
 		}
 
 		// REST Endpoints.
-		foreach ( $this->rest_endpoints as $endpoint ) {
+		foreach ( self::$rest_endpoints as $endpoint ) {
 			( new $endpoint() )->load();
 		}
 
