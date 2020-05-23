@@ -28,6 +28,65 @@ defined( 'ABSPATH' ) || exit;
 abstract class Custom_Post_Type extends Data_Store_WP {
 
 	/**
+	 * Default permissions for the post type.
+	 *
+	 * @var \bool[][]
+	 */
+	protected static $default_permissions = [
+		'administrator' => [
+			'read_private'     => true,
+			'edit'             => true,
+			'edit_others'      => true,
+			'edit_published'   => true,
+			'publish'          => true,
+			'delete'           => true,
+			'delete_others'    => true,
+			'delete_published' => true,
+		],
+		'editor'        => [
+			'read_private'     => true,
+			'edit'             => true,
+			'edit_others'      => true,
+			'edit_published'   => true,
+			'publish'          => true,
+			'delete'           => true,
+			'delete_others'    => true,
+			'delete_published' => true,
+		],
+		'author'        => [
+			'read_private'     => true,
+			'edit'             => true,
+			'edit_others'      => false,
+			'edit_published'   => true,
+			'publish'          => true,
+			'delete'           => true,
+			'delete_others'    => false,
+			'delete_published' => true,
+		],
+		'contributor'   => [
+			'read_private'     => true,
+			'edit'             => true,
+			'edit_others'      => false,
+			'edit_published'   => true,
+			'publish'          => false,
+			'delete'           => true,
+			'delete_others'    => false,
+			'delete_published' => false,
+		],
+		'subscriber'    => [
+			'read_private'     => false,
+			'create'           => false,
+			'edit'             => false,
+			'edit_others'      => false,
+			'edit_published'   => false,
+			'publish'          => false,
+			'delete'           => false,
+			'delete_others'    => false,
+			'delete_published' => false,
+		],
+	];
+
+	/**
 	 * Handle the registration logic here to
 	 * set up and register the object with WordPress.
 	 *
@@ -197,62 +256,24 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	}
 
 	/**
-	 * Setup capabilities based on the defined permissions.
+	 * Get the default capabilities.
 	 *
-	 * @return void
+	 * @return string[]
 	 */
-	public static function setup_permissions(): void {
+	protected static function get_capabilities(): array {
 
-		$default_permissions = [
-			'administrator' => [
-				'edit_' . static::get_key()                => true,
-				'read_' . static::get_key()                => true,
-				'delete_' . static::get_key()              => true,
-				'edit_' . static::get_plural_key()         => true,
-				'edit_others_' . static::get_plural_key()  => true,
-				'publish_' . static::get_plural_key()      => true,
-				'read_private_' . static::get_plural_key() => true,
-			],
-			'editor'        => [
-				'edit_' . static::get_key()                => true,
-				'read_' . static::get_key()                => true,
-				'delete_' . static::get_key()              => true,
-				'edit_' . static::get_plural_key()         => true,
-				'edit_others_' . static::get_plural_key()  => true,
-				'publish_' . static::get_plural_key()      => true,
-				'read_private_' . static::get_plural_key() => true,
-			],
-			'author'        => [
-				'edit_' . static::get_key()                => true,
-				'read_' . static::get_key()                => true,
-				'delete_' . static::get_key()              => true,
-				'edit_' . static::get_plural_key()         => true,
-				'edit_others_' . static::get_plural_key()  => false,
-				'publish_' . static::get_plural_key()      => true,
-				'read_private_' . static::get_plural_key() => true,
-			],
-			'contributor'   => [
-				'edit_' . static::get_key()                => true,
-				'read_' . static::get_key()                => true,
-				'delete_' . static::get_key()              => false,
-				'edit_' . static::get_plural_key()         => true,
-				'edit_others_' . static::get_plural_key()  => false,
-				'publish_' . static::get_plural_key()      => false,
-				'read_private_' . static::get_plural_key() => true,
-			],
-			'subscriber'    => [
-				'edit_' . static::get_key()                => false,
-				'read_' . static::get_key()                => true,
-				'delete_' . static::get_key()              => false,
-				'edit_' . static::get_plural_key()         => false,
-				'edit_others_' . static::get_plural_key()  => false,
-				'publish_' . static::get_plural_key()      => false,
-				'read_private_' . static::get_plural_key() => false,
-			],
+		$capabilities = [
+			'edit_post'    => 'edit_' . static::get_key(),
+			'read_post'    => 'read_' . static::get_key(),
+			'delete_post'  => 'delete_' . static::get_key(),
+			'create_posts' => 'edit_' . static::get_key(),
 		];
 
-		$permissions = wp_parse_args( static::$permissions, $default_permissions );
-		static::add_permissions_to_roles( $permissions );
+		foreach ( static::$default_permissions['administrator'] as $permission => $is_granted ) {
+			$capabilities[ $permission . '_post' ] = self::add_key_to_capability( $permission );
+		}
+
+		return $capabilities;
 
 	}
 

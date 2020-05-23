@@ -47,7 +47,7 @@ class CPT extends Abstracts\Custom_Post_Type {
 			'singular_name'         => _x( 'Example', 'Post Type Singular Name', 'wp-plugin-scaffold' ),
 			'menu_name'             => __( 'Examples', 'wp-plugin-scaffold' ),
 			'name_admin_bar'        => __( 'Examples', 'wp-plugin-scaffold' ),
-			'archives'              => __( 'Example Archives', 'wp-plugin-scaffold' ),
+			'archives'              => __( 'Examples', 'wp-plugin-scaffold' ),
 			'parent_item_colon'     => __( 'Parent Example:', 'wp-plugin-scaffold' ),
 			'all_items'             => __( 'All Examples', 'wp-plugin-scaffold' ),
 			'add_new_item'          => __( 'Add New Example', 'wp-plugin-scaffold' ),
@@ -84,7 +84,7 @@ class CPT extends Abstracts\Custom_Post_Type {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
+			'show_in_menu'        => true, // Set this to string to make sub-page.
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-users',
 			'show_in_admin_bar'   => true,
@@ -93,13 +93,13 @@ class CPT extends Abstracts\Custom_Post_Type {
 			'has_archive'         => _x( 'example', 'examples post type archive slug', 'wp-plugin-scaffold' ),
 			'rewrite'             => [
 				'slug'       => _x( 'example', 'examples post type single slug', 'wp-plugin-scaffold' ),
-				'with_front' => true,
+				'with_front' => false,
 			],
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'delete_with_user'    => null,
-			'show_in_rest'        => true,
-			'capability_type'     => [ self::get_key(), self::get_plural_key() ],
+			'show_in_rest'        => true, // Required for Gutenberg.
+			'capabilities'        => self::get_capabilities(),
 		];
 
 		register_post_type( self::get_key(), $args );

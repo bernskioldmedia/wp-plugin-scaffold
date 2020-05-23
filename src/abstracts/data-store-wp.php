@@ -33,6 +33,13 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	protected static $permissions = [];
 
 	/**
+	 * A list of default permissions for core roles.
+	 *
+	 * @var array
+	 */
+	protected static $default_permissions = [];
+
+	/**
 	 * Custom_Post_Type constructor.
 	 */
 	public function __construct() {
@@ -88,11 +95,21 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	}
 
 	/**
-	 * Setup capabilities based on the defined permissions.
+	 * Adds key to the capability.
 	 *
-	 * @return void
+	 * @param  string  $capability
+	 * @param  bool    $plural
+	 *
+	 * @return string
 	 */
-	abstract public static function setup_permissions(): void;
+	protected static function add_key_to_capability( $capability, $plural = true ): string {
+
+		if ( ! $plural ) {
+			return $capability . '_' . static::get_key();
+		}
+
+		return $capability . '_' . static::get_plural_key();
+	}
 
 	/**
 	 * Add permissions to roles.
@@ -109,10 +126,20 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 			}
 
 			foreach ( $capabilities as $capability => $is_granted ) {
-				$role->add_cap( $capability, $is_granted );
+				$role->add_cap( static::add_key_to_capability( $capability ), $is_granted );
 			}
 		}
 
+	}
+
+	/**
+	 * Setup capabilities based on the defined permissions.
+	 *
+	 * @return void
+	 */
+	public static function setup_permissions(): void {
+		$permissions = wp_parse_args( static::$permissions, static::$default_permissions );
+		static::add_permissions_to_roles( $permissions );
 	}
 
 }

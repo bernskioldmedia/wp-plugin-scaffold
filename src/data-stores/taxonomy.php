@@ -78,19 +78,16 @@ class Taxonomy extends Abstracts\Taxonomy {
 			'show_ui'            => true,
 			'show_admin_column'  => true,
 			'show_in_menu'       => true,
-			'show_in_quick_edit' => true,
 			'show_in_nav_menus'  => true,
+			'show_in_quick_edit' => true,
+			'show_in_rest'       => true, // Must be true for Gutenberg.
 			'show_tagcloud'      => false,
 			'rewrite'            => [
-				'slug' => _x( 'types', 'types taxonomy slug ', 'wp-plugin-scaffold' ),
+				'slug'         => _x( 'types', 'types taxonomy slug ', 'wp-plugin-scaffold' ),
+				'with_front'   => false,
+				'hierarchical' => true,
 			],
-			'show_in_rest'       => true,
-			'capabilities'       => [
-				'manage_terms' => 'manage_' . self::get_plural_key(),
-				'edit_terms'   => 'manage_' . self::get_plural_key(),
-				'delete_terms' => 'delete_' . self::get_plural_key(),
-				'assign_terms' => 'assign_' . self::get_plural_key(),
-			],
+			'capabilities'       => self::get_capabilities(),
 		];
 
 		register_taxonomy( self::get_key(), self::get_post_type_keys(), $args );
