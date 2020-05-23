@@ -32,7 +32,7 @@ abstract class Taxonomy_Data extends Data {
 	/**
 	 * Get Property
 	 *
-	 * @param  string  $field_key
+	 * @param  string $field_key
 	 *
 	 * @return mixed|null
 	 */
@@ -43,8 +43,8 @@ abstract class Taxonomy_Data extends Data {
 	/**
 	 * Set property
 	 *
-	 * @param  string  $field_key
-	 * @param  mixed   $new_value
+	 * @param  string $field_key
+	 * @param  mixed  $new_value
 	 *
 	 * @return bool|int|mixed
 	 */

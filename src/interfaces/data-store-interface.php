@@ -31,8 +31,8 @@ interface Data_Store_Interface {
 	/**
 	 * Create an item.
 	 *
-	 * @param  string  $name
-	 * @param  array   $args
+	 * @param  string $name
+	 * @param  array  $args
 	 *
 	 * @return int
 	 */
@@ -41,8 +41,8 @@ interface Data_Store_Interface {
 	/**
 	 * Update an item with new values.
 	 *
-	 * @param  int           $object_id
-	 * @param  array|string  $args
+	 * @param  int          $object_id
+	 * @param  array|string $args
 	 *
 	 * @return mixed
 	 */
@@ -51,7 +51,7 @@ interface Data_Store_Interface {
 	/**
 	 * Delete an item.
 	 *
-	 * @param  int  $object_id
+	 * @param  int $object_id
 	 *
 	 * @return mixed
 	 */

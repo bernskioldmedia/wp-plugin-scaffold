@@ -76,8 +76,8 @@ class Log {
 	/**
 	 * Debug
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function debug( $message, array $context = [] ) {
 		self::get()->addDebug( $message, $context );
@@ -86,8 +86,8 @@ class Log {
 	/**
 	 * Info
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function info( $message, array $context = [] ) {
 		self::get()->addInfo( $message, $context );
@@ -96,8 +96,8 @@ class Log {
 	/**
 	 * Notice
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function notice( $message, array $context = [] ) {
 		self::get()->addNotice( $message, $context );
@@ -106,8 +106,8 @@ class Log {
 	/**
 	 * Warning
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function warning( $message, array $context = [] ) {
 		self::get()->addWarning( $message, $context );
@@ -116,8 +116,8 @@ class Log {
 	/**
 	 * Error
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function error( $message, array $context = [] ) {
 		self::get()->addError( $message, $context );
@@ -126,8 +126,8 @@ class Log {
 	/**
 	 * Critical
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function critical( $message, array $context = [] ) {
 		self::get()->addCritical( $message, $context );
@@ -136,8 +136,8 @@ class Log {
 	/**
 	 * Alert
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function alert( $message, array $context = [] ) {
 		self::get()->addAlert( $message, $context );
@@ -146,8 +146,8 @@ class Log {
 	/**
 	 * Emergency
 	 *
-	 * @param  string  $message  Message.
-	 * @param  array   $context  Data.
+	 * @param  string $message  Message.
+	 * @param  array  $context  Data.
 	 */
 	public static function emergency( $message, array $context = [] ) {
 		self::get()->addEmergency( $message, $context );

@@ -152,7 +152,7 @@ class Plugin {
 	 * Get the path to the plugin folder, or the specified
 	 * file relative to the plugin folder home.
 	 *
-	 * @param  string  $file
+	 * @param  string $file
 	 *
 	 * @return string
 	 */
@@ -164,7 +164,7 @@ class Plugin {
 	 * Get the URL to the plugin folder, or the specified
 	 * file relative to the plugin folder home.
 	 *
-	 * @param  string  $file
+	 * @param  string $file
 	 *
 	 * @return string
 	 */
@@ -176,7 +176,7 @@ class Plugin {
 	 * Get the URL to the assets folder, or the specified
 	 * file relative to the assets folder home.
 	 *
-	 * @param  string  $file
+	 * @param  string $file
 	 *
 	 * @return string
 	 */

@@ -25,11 +25,14 @@ class REST_Example extends REST_Endpoint {
 	 * Add the routes for this endpoint.
 	 */
 	protected function setup_routes(): void {
-		$this->add_route( '/example', [
-			'methods'             => self::READABLE,
-			'callback'            => [ $this, 'get_example' ],
-			'permission_callback' => [ $this, 'has_public_access' ],
-		] );
+		$this->add_route(
+			'/example',
+			[
+				'methods'             => self::READABLE,
+				'callback'            => [ $this, 'get_example' ],
+				'permission_callback' => [ $this, 'has_public_access' ],
+			]
+		);
 	}
 
 	/**

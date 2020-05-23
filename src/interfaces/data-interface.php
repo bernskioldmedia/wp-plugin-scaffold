@@ -31,7 +31,7 @@ interface Data_Interface {
 	/**
 	 * Set ID
 	 *
-	 * @param  int  $id
+	 * @param  int $id
 	 */
 	public function set_id( int $id ): void;
 
@@ -52,7 +52,7 @@ interface Data_Interface {
 	/**
 	 * Find an object.
 	 *
-	 * @param  string  $name
+	 * @param  string $name
 	 *
 	 * @return static
 	 */
@@ -61,7 +61,7 @@ interface Data_Interface {
 	/**
 	 * Find or Create Object
 	 *
-	 * @param  string  $name
+	 * @param  string $name
 	 *
 	 * @return static
 	 */
@@ -70,8 +70,8 @@ interface Data_Interface {
 	/**
 	 * Create a new Object
 	 *
-	 * @param  string  $name
-	 * @param  array   $args
+	 * @param  string $name
+	 * @param  array  $args
 	 *
 	 * @return int
 	 */
@@ -80,8 +80,8 @@ interface Data_Interface {
 	/**
 	 * Update an object.
 	 *
-	 * @param  int    $object_id
-	 * @param  array  $args
+	 * @param  int   $object_id
+	 * @param  array $args
 	 *
 	 * @return mixed
 	 */
@@ -90,8 +90,8 @@ interface Data_Interface {
 	/**
 	 * Delete an object.
 	 *
-	 * @param  int   $object_id
-	 * @param  bool  $force_delete
+	 * @param  int  $object_id
+	 * @param  bool $force_delete
 	 *
 	 * @return bool
 	 */

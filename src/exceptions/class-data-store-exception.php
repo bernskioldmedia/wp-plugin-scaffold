@@ -23,8 +23,8 @@ class Data_Store_Exception extends \Exception {
 	 *
 	 * @link https://php.net/manual/en/exception.construct.php
 	 *
-	 * @param  string  $message  [optional] The Exception message to throw.
-	 * @param  array   $data
+	 * @param  string $message  [optional] The Exception message to throw.
+	 * @param  array  $data
 	 */
 	public function __construct( string $message, array $data ) {
 		parent::__construct( $message );

@@ -99,8 +99,8 @@ abstract class REST_Endpoint extends \WP_REST_Controller implements REST_Endpoin
 	/**
 	 * Get sanitized URL param filter value.
 	 *
-	 * @param  \WP_REST_Request  $request
-	 * @param  string            $key
+	 * @param  \WP_REST_Request $request
+	 * @param  string           $key
 	 *
 	 * @return string|null
 	 */
@@ -111,8 +111,8 @@ abstract class REST_Endpoint extends \WP_REST_Controller implements REST_Endpoin
 	/**
 	 * Add a route
 	 *
-	 * @param  string  $route  NB. Prefix with /
-	 * @param  array   $args
+	 * @param  string $route  NB. Prefix with /
+	 * @param  array  $args
 	 */
 	protected function add_route( string $route, array $args ): array {
 		$this->routes[ $route ] = $args;

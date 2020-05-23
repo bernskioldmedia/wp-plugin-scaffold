@@ -48,7 +48,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Data constructor.
 	 *
-	 * @param  int|object|array  $id
+	 * @param  int|object|array $id
 	 */
 	public function __construct( $id = 0 ) {
 		if ( is_numeric( $id ) && $id > 0 ) {
@@ -108,7 +108,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Set ID.
 	 *
-	 * @param  int  $id
+	 * @param  int $id
 	 */
 	public function set_id( $id ): void {
 		$this->id = absint( $id );
@@ -117,7 +117,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Get Property
 	 *
-	 * @param  string  $field_key
+	 * @param  string $field_key
 	 *
 	 * @return mixed|null
 	 */
@@ -131,8 +131,8 @@ abstract class Data implements Data_Interface {
 	 *
 	 * Defaults to current user if no user is given.
 	 *
-	 * @param  string    $type
-	 * @param  null|int  $user_id
+	 * @param  string   $type
+	 * @param  null|int $user_id
 	 *
 	 * @return bool
 	 */
@@ -173,7 +173,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Find an object.
 	 *
-	 * @param  string  $name
+	 * @param  string $name
 	 *
 	 * @return static|null
 	 */
@@ -192,7 +192,7 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Find or Create Object
 	 *
-	 * @param  string  $name
+	 * @param  string $name
 	 *
 	 * @return static
 	 */
@@ -213,8 +213,8 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Set property
 	 *
-	 * @param  string  $field_key
-	 * @param  mixed   $new_value
+	 * @param  string $field_key
+	 * @param  mixed  $new_value
 	 *
 	 * @return bool|int|mixed
 	 */
@@ -225,8 +225,8 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Create an item.
 	 *
-	 * @param  string  $name
-	 * @param  array   $args
+	 * @param  string $name
+	 * @param  array  $args
 	 *
 	 * @return int|null
 	 */
@@ -237,9 +237,9 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Update an object.
 	 *
-	 * @param  int    $object_id
+	 * @param  int   $object_id
 	 *
-	 * @param  array  $args
+	 * @param  array $args
 	 *
 	 * @return mixed
 	 */
@@ -250,8 +250,8 @@ abstract class Data implements Data_Interface {
 	/**
 	 * Delete an item.
 	 *
-	 * @param  int   $object_id
-	 * @param  bool  $force_delete
+	 * @param  int  $object_id
+	 * @param  bool $force_delete
 	 *
 	 * @return bool
 	 */

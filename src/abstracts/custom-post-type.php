@@ -97,8 +97,8 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	/**
 	 * Create Custom Post Type Object
 	 *
-	 * @param  string  $name
-	 * @param  array   $args
+	 * @param  string $name
+	 * @param  array  $args
 	 *
 	 * @return int
 	 * @throws Data_Store_Exception
@@ -115,11 +115,14 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		/**
 		 * Set up the post data.
 		 */
-		$post_data = wp_parse_args( $args, [
-			'post_type'    => static::get_key(),
-			'post_content' => '',
-			'post_status'  => 'publish',
-		] );
+		$post_data = wp_parse_args(
+			$args,
+			[
+				'post_type'    => static::get_key(),
+				'post_content' => '',
+				'post_status'  => 'publish',
+			]
+		);
 
 		/**
 		 * Create the post!
@@ -130,17 +133,23 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		 * Bail now if we couldn't create.
 		 */
 		if ( is_wp_error( $response ) ) {
-			throw new Data_Store_Exception( 'Tried to create an object, but it failed.', [
-				'error'     => $response->get_error_message(),
-				'post_data' => $post_data,
-			] );
+			throw new Data_Store_Exception(
+				'Tried to create an object, but it failed.',
+				[
+					'error'     => $response->get_error_message(),
+					'post_data' => $post_data,
+				]
+			);
 
 		}
 
-		Log::info( 'Successfully created a new object.', [
-			'object_id' => $response,
-			'post_data' => $post_data,
-		] );
+		Log::info(
+			'Successfully created a new object.',
+			[
+				'object_id' => $response,
+				'post_data' => $post_data,
+			]
+		);
 
 		return (int) $response;
 
@@ -149,18 +158,21 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	/**
 	 * Updates a post.
 	 *
-	 * @param  int    $object_id
-	 * @param  array  $args
+	 * @param  int   $object_id
+	 * @param  array $args
 	 *
 	 * @return int
 	 * @throws Data_Store_Exception
 	 */
 	public static function update( $object_id, $args = [] ): int {
 
-		$data = wp_parse_args( $args, [
-			'ID'        => $object_id,
-			'post_type' => static::get_key(),
-		] );
+		$data = wp_parse_args(
+			$args,
+			[
+				'ID'        => $object_id,
+				'post_type' => static::get_key(),
+			]
+		);
 
 		$response = wp_update_post( $data, true );
 
@@ -168,16 +180,22 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		 * Bail now if we couldn't create.
 		 */
 		if ( is_wp_error( $response ) ) {
-			throw new Data_Store_Exception( 'Tried to update an object, but it failed.', [
-				'error'     => $response->get_error_message(),
-				'post_data' => $data,
-			] );
+			throw new Data_Store_Exception(
+				'Tried to update an object, but it failed.',
+				[
+					'error'     => $response->get_error_message(),
+					'post_data' => $data,
+				]
+			);
 		}
 
-		Log::info( 'Successfully updated an object.', [
-			'object_id' => $response,
-			'post_data' => $data,
-		] );
+		Log::info(
+			'Successfully updated an object.',
+			[
+				'object_id' => $response,
+				'post_data' => $data,
+			]
+		);
 
 		return (int) $response;
 
@@ -186,8 +204,8 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	/**
 	 * Delete an object.
 	 *
-	 * @param  int   $object_id
-	 * @param  bool  $skip_trash
+	 * @param  int  $object_id
+	 * @param  bool $skip_trash
 	 *
 	 * @return bool
 	 * @throws Data_Store_Exception
@@ -196,16 +214,22 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		$response = wp_delete_post( $object_id, $skip_trash );
 
 		if ( false === $response ) {
-			throw new Data_Store_Exception( 'Tried to delete object, but it failed.', [
-				'object_id'  => $object_id,
-				'skip_trash' => $skip_trash,
-			] );
+			throw new Data_Store_Exception(
+				'Tried to delete object, but it failed.',
+				[
+					'object_id'  => $object_id,
+					'skip_trash' => $skip_trash,
+				]
+			);
 		}
 
-		Log::info( 'An object was successfully deleted.', [
-			'object_id'  => $object_id,
-			'skip_trash' => $skip_trash,
-		] );
+		Log::info(
+			'An object was successfully deleted.',
+			[
+				'object_id'  => $object_id,
+				'skip_trash' => $skip_trash,
+			]
+		);
 
 		return true;
 	}
@@ -214,7 +238,7 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	/**
 	 * Check if posts exists. Returns integer if exists, or null.
 	 *
-	 * @param  string  $post_title
+	 * @param  string $post_title
 	 *
 	 * @return null|int
 	 */
@@ -233,8 +257,8 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	/**
 	 * Get and store terms from a taxonomy.
 	 *
-	 * @param  Data|integer  $object    Data object or object ID.
-	 * @param  string        $taxonomy  Taxonomy name e.g. product_cat.
+	 * @param  Data|integer $object    Data object or object ID.
+	 * @param  string       $taxonomy  Taxonomy name e.g. product_cat.
 	 *
 	 * @return array of terms
 	 */
