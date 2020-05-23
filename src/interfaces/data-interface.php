@@ -36,20 +36,6 @@ interface Data_Interface {
 	public function set_id( int $id ): void;
 
 	/**
-	 * Returns all data for this object.
-	 *
-	 * @return array
-	 */
-	public function get_data(): array;
-
-	/**
-	 * Get all the data keys for this object.
-	 *
-	 * @return array
-	 */
-	public function get_data_keys(): array;
-
-	/**
 	 * Get object type key.
 	 *
 	 * @return string
