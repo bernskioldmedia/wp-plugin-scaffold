@@ -9,8 +9,14 @@
   "require-dev": {
     "phpunit/phpunit": "^8.2",
     "10up/wp_mock": "dev-master",
-    "10up/phpcs-composer": "dev-master"
+    "bernskioldmedia/phpcs-wordpress": "dev-master"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/bernskioldmedia/phpcs-wordpress"
+    }
+  ],
   "license": "GPL-3.0+",
   "authors": [
     {

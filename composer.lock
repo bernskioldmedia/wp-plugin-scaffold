@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "647c63905c9eccedd3dbb17d3e6cc03c",
+    "content-hash": "38474f48f247c2fc9bfcea0b4e8e43ed",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -133,39 +133,6 @@
     ],
     "packages-dev": [
         {
-            "name": "10up/phpcs-composer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/10up/phpcs-composer.git",
-                "reference": "4cbf9af0c55ad3ec6ffeef03053736ac1ea57391"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/10up/phpcs-composer/zipball/4cbf9af0c55ad3ec6ffeef03053736ac1ea57391",
-                "reference": "4cbf9af0c55ad3ec6ffeef03053736ac1ea57391",
-                "shasum": ""
-            },
-            "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "*",
-                "phpcompatibility/phpcompatibility-wp": "^2",
-                "squizlabs/php_codesniffer": "^3.4.0",
-                "wp-coding-standards/wpcs": "*"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ephraim Gregor",
-                    "email": "ephraim.gregor@10up.com"
-                }
-            ],
-            "time": "2019-11-25T15:12:37+00:00"
-        },
-        {
             "name": "10up/wp_mock",
             "version": "dev-master",
             "source": {
@@ -249,6 +216,51 @@
                 "testing"
             ],
             "time": "2019-12-22T17:52:09+00:00"
+        },
+        {
+            "name": "bernskioldmedia/phpcs-wordpress",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:bernskioldmedia/phpcs-wordpress.git",
+                "reference": "823f37f295b6ce5ccdb53071ace8babc5d4b5eb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bernskioldmedia/phpcs-wordpress/zipball/823f37f295b6ce5ccdb53071ace8babc5d4b5eb6",
+                "reference": "823f37f295b6ce5ccdb53071ace8babc5d4b5eb6",
+                "shasum": ""
+            },
+            "require": {
+                "dealerdirect/phpcodesniffer-composer-installer": "*",
+                "phpcompatibility/phpcompatibility-wp": "^2",
+                "squizlabs/php_codesniffer": "^3.4.0",
+                "wp-coding-standards/wpcs": "*"
+            },
+            "type": "phpcodesniffer-standard",
+            "scripts": {
+                "config-cs": [
+                    "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+                    "\"vendor/bin/phpcs\" --config-set default_standard BM-Default"
+                ],
+                "post-install-cmd": [
+                    "@config-cs"
+                ],
+                "post-update-cmd": [
+                    "@config-cs"
+                ],
+                "lint": [
+                    "\"vendor/bin/phpcs\" . "
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/bernskioldmedia/phpcs-wordpress/tree/master",
+                "issues": "https://github.com/bernskioldmedia/phpcs-wordpress/issues"
+            },
+            "time": "2020-05-23T19:08:33+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -2207,7 +2219,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "10up/wp_mock": 20,
-        "10up/phpcs-composer": 20
+        "bernskioldmedia/phpcs-wordpress": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
