@@ -28,19 +28,12 @@ defined( 'ABSPATH' ) || exit;
 abstract class Custom_Post_Type extends Data_Store_WP {
 
 	/**
-	 * Custom_Post_Type constructor.
-	 */
-	public function __construct() {
-		add_action( 'init', [ $this, 'register' ], 10 );
-	}
-
-	/**
 	 * Handle the registration logic here to
 	 * set up and register the object with WordPress.
 	 *
 	 * @return void
 	 */
-	abstract public function register(): void;
+	abstract public static function register(): void;
 
 	/**
 	 * Create Custom Post Type Object
@@ -51,7 +44,7 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	 * @return int
 	 * @throws Data_Store_Exception
 	 */
-	public function create( $name, $args ): int {
+	public static function create( $name, $args = [] ): int {
 
 		/**
 		 * Check that the required data for creation is set.
@@ -64,7 +57,7 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 		 * Set up the post data.
 		 */
 		$post_data = wp_parse_args( $args, [
-			'post_type'    => $this->get_key(),
+			'post_type'    => static::get_key(),
 			'post_content' => '',
 			'post_status'  => 'publish',
 		] );
@@ -103,11 +96,11 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	 * @return int
 	 * @throws Data_Store_Exception
 	 */
-	public function update( $object_id, $args ): int {
+	public static function update( $object_id, $args = [] ): int {
 
 		$data = wp_parse_args( $args, [
 			'ID'        => $object_id,
-			'post_type' => $this->get_key(),
+			'post_type' => static::get_key(),
 		] );
 
 		$response = wp_update_post( $data, true );
@@ -140,7 +133,7 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	 * @return bool
 	 * @throws Data_Store_Exception
 	 */
-	public function delete( $object_id, $skip_trash = false ): bool {
+	public static function delete( $object_id, $skip_trash = false ): bool {
 		$response = wp_delete_post( $object_id, $skip_trash );
 
 		if ( false === $response ) {
@@ -166,9 +159,9 @@ abstract class Custom_Post_Type extends Data_Store_WP {
 	 *
 	 * @return null|int
 	 */
-	public function does_object_exist( $post_title ): ?int {
+	public static function does_object_exist( $post_title ): ?int {
 
-		$post = get_page_by_title( $post_title, OBJECT, $this->get_key() );
+		$post = get_page_by_title( $post_title, OBJECT, static::get_key() );
 
 		if ( null !== $post ) {
 			return (int) $post->ID;

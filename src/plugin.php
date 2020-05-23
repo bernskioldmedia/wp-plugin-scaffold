@@ -2,6 +2,8 @@
 
 namespace BernskioldMedia\WP\PluginScaffold;
 
+use ReflectionClass;
+
 /**
  * Class Plugin
  *
@@ -129,9 +131,10 @@ class Plugin {
 	 */
 	public function loaders(): void {
 
-		// Data Stores.
-		foreach ( $this->data_stores as $data_store ) {
-			( new $data_store() )->load();
+		foreach ( glob( 'src/data-stores/*.php' ) as $file ) {
+			$class      = basename( $file, '.php' );
+			$reflection = new ReflectionClass( $class );
+
 		}
 
 		// REST Endpoints.

@@ -26,7 +26,7 @@ interface Data_Store_Interface {
 	 *
 	 * @return mixed
 	 */
-	public function get_key();
+	public static function get_key();
 
 	/**
 	 * Create an item.
@@ -34,9 +34,9 @@ interface Data_Store_Interface {
 	 * @param  string  $name
 	 * @param  array   $args
 	 *
-	 * @return int|bool
+	 * @return int
 	 */
-	public function create( $name, $args );
+	public static function create( $name, $args = [] ): int;
 
 	/**
 	 * Update an item with new values.
@@ -46,7 +46,7 @@ interface Data_Store_Interface {
 	 *
 	 * @return mixed
 	 */
-	public function update( $object_id, $args );
+	public static function update( $object_id, $args = [] );
 
 	/**
 	 * Delete an item.
@@ -55,6 +55,6 @@ interface Data_Store_Interface {
 	 *
 	 * @return mixed
 	 */
-	public function delete( $object_id );
+	public static function delete( $object_id );
 
 }

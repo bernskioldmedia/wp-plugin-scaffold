@@ -26,6 +26,13 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	protected static $plural_key;
 
 	/**
+	 * Custom_Post_Type constructor.
+	 */
+	public function __construct() {
+		add_action( 'init', [ static::class, 'register' ], 10 );
+	}
+
+	/**
 	 * Create an item.
 	 *
 	 * @param  string  $name
@@ -33,7 +40,7 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 *
 	 * @return int
 	 */
-	abstract public function create( $name, $args ): int;
+	abstract public static function create( $name, $args = [] ): int;
 
 	/**
 	 * Update an item with new values.
@@ -43,7 +50,7 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 *
 	 * @return int
 	 */
-	abstract public function update( $object_id, $args ): int;
+	abstract public static function update( $object_id, $args = [] ): int;
 
 	/**
 	 * Delete an item.
@@ -53,14 +60,14 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 *
 	 * @return bool
 	 */
-	abstract public function delete( $object_id, $force_delete = false ): bool;
+	abstract public static function delete( $object_id, $force_delete = false ): bool;
 
 	/**
 	 * Get Object Type Key
 	 *
 	 * @return string
 	 */
-	public function get_key(): string {
+	public static function get_key(): string {
 		return static::$key;
 	}
 
@@ -69,7 +76,7 @@ abstract class Data_Store_WP implements Data_Store_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_plural_key(): string {
+	public static function get_plural_key(): string {
 		return static::$plural_key;
 	}
 

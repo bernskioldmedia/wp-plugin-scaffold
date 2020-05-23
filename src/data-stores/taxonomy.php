@@ -9,6 +9,9 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Data_Stores;
 
+use BernskioldMedia\WP\PluginScaffold\Abstracts\Taxonomy;
+use BernskioldMedia\WP\PluginScaffold\Data\CPT;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -23,37 +26,30 @@ class Data_Store_Taxonomy extends Taxonomy {
 	 *
 	 * @var string
 	 */
-	protected $key = 'type';
+	protected static $key = 'type';
 
 	/**
 	 * Taxonomy Plural Key
 	 *
 	 * @var string
 	 */
-	protected $plural_key = 'types';
+	protected static $plural_key = 'types';
 
 	/**
 	 * Taxonomy Post Types
 	 *
 	 * @var string
 	 */
-	protected $post_types = [
-		'example',
+	protected static $post_types = [
+		CPT::class,
 	];
-
-	/**
-	 * Data_Store_Taxonomy constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
 
 	/**
 	 * Register the taxonomy.
 	 *
 	 * @see https://developer.wordpress.org/reference/functions/register_taxonomy/
 	 */
-	public function register() {
+	public static function register() {
 
 		$labels = [
 			'name'                       => _x( 'Types', 'Taxonomy General Name', 'wp-plugin-scaffold' ),
@@ -91,14 +87,14 @@ class Data_Store_Taxonomy extends Taxonomy {
 			],
 			'show_in_rest'       => true,
 			'capabilities'       => [
-				'manage_terms' => 'manage_' . $this->get_plural_key(),
-				'edit_terms'   => 'manage_' . $this->get_plural_key(),
-				'delete_terms' => 'delete_' . $this->get_plural_key(),
-				'assign_terms' => 'assign_' . $this->get_plural_key(),
+				'manage_terms' => 'manage_' . self::get_plural_key(),
+				'edit_terms'   => 'manage_' . self::get_plural_key(),
+				'delete_terms' => 'delete_' . self::get_plural_key(),
+				'assign_terms' => 'assign_' . self::get_plural_key(),
 			],
 		];
 
-		register_taxonomy( $this->get_key(), $this->get_post_types(), $args );
+		register_taxonomy( self::get_key(), self::get_post_type_keys(), $args );
 
 	}
 

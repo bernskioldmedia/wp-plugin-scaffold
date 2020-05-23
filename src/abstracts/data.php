@@ -39,52 +39,21 @@ abstract class Data implements Data_Interface {
 	protected $id = 0;
 
 	/**
-	 * Object Type
+	 * Reference to the data store.
 	 *
 	 * @var string
 	 */
-	protected static $object_type;
-
-	/**
-	 * Reference to the data store.
-	 *
-	 * @var Data_Store_WP
-	 */
-	protected $data_store;
-
-	/**
-	 * Contains all the metadata for the object.
-	 *
-	 * @var array
-	 */
-	protected $data = [];
-
-	/**
-	 * @var array
-	 */
-	protected $changes = [];
-
-	/**
-	 * Set to _data on construct so we can track and reset data if needed.
-	 *
-	 * @var array
-	 */
-	protected $default_data = [];
-
-	/**
-	 * This is false until the object is read from the DB.
-	 *
-	 * @var bool
-	 */
-	protected $is_read = false;
+	protected static $data_store;
 
 	/**
 	 * Data constructor.
 	 *
-	 * @param  int|object|array  $read
+	 * @param  int|object|array  $id
 	 */
-	public function __construct( $read = 0 ) {
-		$this->default_data = $this->data;
+	public function __construct( $id = 0 ) {
+		if ( is_numeric( $id ) && $id > 0 ) {
+			$this->set_id( $id );
+		}
 	}
 
 	/**
@@ -106,17 +75,7 @@ abstract class Data implements Data_Interface {
 			$this->__construct( absint( $this->id ) );
 		} catch ( \Exception $e ) {
 			$this->set_id( 0 );
-			$this->set_is_read( true );
 		}
-	}
-
-	/**
-	 * Change data to JSON format.
-	 *
-	 * @return string Data in JSON format.
-	 */
-	public function __toString() {
-		return wp_json_encode( $this->get_data() );
 	}
 
 	/**
@@ -134,16 +93,16 @@ abstract class Data implements Data_Interface {
 	 * @return string
 	 */
 	public static function get_object_type(): string {
-		return self::$object_type;
+		return static::get_data_store()::get_key();
 	}
 
 	/**
 	 * Get data store.
 	 *
-	 * @return Data_Store_WP
+	 * @return string
 	 */
-	public function get_data_store(): Data_Store_WP {
-		return $this->data_store;
+	public static function get_data_store(): string {
+		return static::$data_store;
 	}
 
 	/**
@@ -153,26 +112,6 @@ abstract class Data implements Data_Interface {
 	 */
 	public function set_id( $id ): void {
 		$this->id = absint( $id );
-	}
-
-	/**
-	 * Returns all data for this object.
-	 *
-	 * @return array
-	 */
-	public function get_data(): array {
-		return array_merge( [
-			'id' => $this->get_id(),
-		], $this->data );
-	}
-
-	/**
-	 * Get all the data keys for this object.
-	 *
-	 * @return array
-	 */
-	public function get_data_keys(): array {
-		return array_keys( $this->data );
 	}
 
 	/**
@@ -211,25 +150,63 @@ abstract class Data implements Data_Interface {
 
 			case 'edit':
 			case 'update':
-				$capability = 'edit_' . $this->get_data_store()->get_key();
+				$capability = 'edit_' . static::get_data_store()::get_key();
 				break;
 
 			case 'delete':
-				$capability = 'delete_' . $this->get_data_store()->get_key();
+				$capability = 'delete_' . static::get_data_store()::get_key();
 				break;
 
 			case 'view':
 			case 'access':
 			case 'read':
 			default:
-				$capability = 'read_' . $this->get_data_store()->get_key();
+				$capability = 'read_' . static::get_data_store()::get_key();
 				break;
 
 		}
 
-		$is_allowed = user_can( $user_id, $capability, $this->get_id() );
+		return user_can( $user_id, $capability, $this->get_id() );
 
-		return $is_allowed;
+	}
+
+	/**
+	 * Find an object.
+	 *
+	 * @param  string  $name
+	 *
+	 * @return static|null
+	 */
+	public static function find( $name ) {
+
+		$id = static::get_data_store()::does_object_exist( $name );
+
+		if ( ! $id ) {
+			return null;
+		}
+
+		return new static( $id );
+
+	}
+
+	/**
+	 * Find or Create Object
+	 *
+	 * @param  string  $name
+	 *
+	 * @return static
+	 */
+	public static function find_or_create( $name ) {
+
+		$id = static::get_data_store()::does_object_exist( $name );
+
+		if ( $id ) {
+			return new static( $id );
+		}
+
+		$new_id = static::create( $name );
+
+		return new static( $new_id );
 
 	}
 
@@ -246,12 +223,40 @@ abstract class Data implements Data_Interface {
 	}
 
 	/**
-	 * Set object read property.
+	 * Create an item.
 	 *
-	 * @param  boolean  $read  Should read?.
+	 * @param  string  $name
+	 * @param  array   $args
+	 *
+	 * @return int|null
 	 */
-	public function set_is_read( $read = true ): void {
-		$this->is_read = (bool) $read;
+	public static function create( $name, $args = [] ): int {
+		return static::get_data_store()::create( $name, $args );
+	}
+
+	/**
+	 * Update an object.
+	 *
+	 * @param  int    $object_id
+	 *
+	 * @param  array  $args
+	 *
+	 * @return mixed
+	 */
+	public static function update( $object_id, $args = [] ) {
+		return static::get_data_store()::update( $object_id, $args );
+	}
+
+	/**
+	 * Delete an item.
+	 *
+	 * @param  int   $object_id
+	 * @param  bool  $force_delete
+	 *
+	 * @return bool
+	 */
+	public static function delete( $object_id, $force_delete = false ): bool {
+		return static::get_data_store()::delete( $object_id, $force_delete );
 	}
 
 }

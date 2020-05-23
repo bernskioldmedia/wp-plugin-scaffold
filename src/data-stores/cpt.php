@@ -9,6 +9,8 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Data_Stores;
 
+use BernskioldMedia\WP\PluginScaffold\Abstracts\Custom_Post_Type;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -23,21 +25,14 @@ class Data_Store_CPT extends Custom_Post_Type {
 	 *
 	 * @var string
 	 */
-	protected $key = 'cpt';
+	protected static $key = 'cpt';
 
 	/**
 	 * Plural Key
 	 *
 	 * @var string
 	 */
-	protected $plural_key = 'cpts';
-
-	/**
-	 * Data_Store_CPT constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
+	protected static $plural_key = 'cpts';
 
 	/**
 	 * Register Post Type
@@ -45,7 +40,7 @@ class Data_Store_CPT extends Custom_Post_Type {
 	 * @see https://codex.wordpress.org/Function_Reference/register_post_type
 	 * @see https://codex.wordpress.org/Function_Reference/register_post_type#Parameters
 	 */
-	public function register() {
+	public static function register(): void {
 
 		$labels = [
 			'name'                  => _x( 'Examples', 'Post Type General Name', 'wp-plugin-scaffold' ),
@@ -104,10 +99,10 @@ class Data_Store_CPT extends Custom_Post_Type {
 			'publicly_queryable'  => true,
 			'delete_with_user'    => null,
 			'show_in_rest'        => true,
-			'capability_type'     => [ $this->get_key(), $this->get_plural_key() ],
+			'capability_type'     => [ self::get_key(), self::get_plural_key() ],
 		];
 
-		register_post_type( $this->get_key(), $args );
+		register_post_type( self::get_key(), $args );
 
 	}
 

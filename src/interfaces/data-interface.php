@@ -12,9 +12,6 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Interfaces;
 
-use BernskioldMedia\WP\PluginScaffold\Abstracts\Data_Store_WP;
-use BernskioldMedia\WP\PluginScaffold\Data;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -53,27 +50,36 @@ interface Data_Interface {
 	public function get_data_keys(): array;
 
 	/**
-	 * Get object type.
+	 * Get object type key.
 	 *
 	 * @return string
 	 */
 	public static function get_object_type(): string;
 
 	/**
-	 * Get data store.
+	 * Get data store class.
 	 *
-	 * @return Data_Store_WP
+	 * @return string
 	 */
-	public function get_data_store(): Data_Store_WP;
+	public static function get_data_store(): string;
+
+	/**
+	 * Find an object.
+	 *
+	 * @param  string  $name
+	 *
+	 * @return static
+	 */
+	public static function find( $name );
 
 	/**
 	 * Find or Create Object
 	 *
 	 * @param  string  $name
 	 *
-	 * @return Data
+	 * @return static
 	 */
-	public static function find_or_create( $name ): Data;
+	public static function find_or_create( $name );
 
 	/**
 	 * Create a new Object
@@ -81,24 +87,28 @@ interface Data_Interface {
 	 * @param  string  $name
 	 * @param  array   $args
 	 *
-	 * @return Data
+	 * @return int
 	 */
-	public static function create( $name, $args = [] ): Data;
+	public static function create( $name, $args = [] ): int;
 
 	/**
 	 * Update an object.
 	 *
-	 * @param  int  $object_id
+	 * @param  int    $object_id
+	 * @param  array  $args
 	 *
-	 * @return Data
+	 * @return mixed
 	 */
-	public static function update( $object_id ): Data;
+	public static function update( $object_id, $args = [] );
 
 	/**
 	 * Delete an object.
 	 *
+	 * @param  int   $object_id
+	 * @param  bool  $force_delete
+	 *
 	 * @return bool
 	 */
-	public static function delete(): bool;
+	public static function delete( $object_id, $force_delete = false ): bool;
 
 }
