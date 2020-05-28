@@ -36,6 +36,26 @@ There are a number of "magic methods" available to define in the data store whic
 #### Adding ACF Fields
 By adding a `public static function fields()` to the data store and defining the ACF fields there using PHP, the structure will automatically hook them into the right load order.
 
+When pasting in the code given by ACFs PHP export utility, make sure that you update with the following:
+
+1. Wrap labels, descriptions and instructions in translation functions `__()` so that everything can be localized.
+2. Replace the explicit post type definition when loading fields for a specific post type only with `self::get_key()` instead of the hard-coded key.
+3. If you have any post_object or relationship fields, consider updating their post_type references with the `Data_Store::get_key()` method instead of the hard-coded post type key.
+
+For number 2, the location block for fields in a specific post type would read:
+
+```
+'location' => [
+	[
+		[
+			'param'    => 'post_type',
+			'operator' => '==',
+			'value'    => self::get_key(),
+		],
+	],
+],
+```
+
 #### Metadata in REST API
 It's helpful to make our ACF and other metadata available in the REST API. For this we have a series of helper methods that hook into the REST API to handle returning and updating metadata.
 
