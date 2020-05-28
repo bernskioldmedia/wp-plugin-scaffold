@@ -107,7 +107,10 @@ class Plugin {
 	 * Hooks that are run on the time of init.
 	 */
 	private function init_hooks(): void {
+
 		add_action( 'init', [ self::class, 'load_languages' ] );
+
+		Assets::hooks();
 
 		do_action( 'wp_plugin_scaffold_init' );
 	}

@@ -22,7 +22,7 @@ class Assets {
 	/**
 	 * Assets Constructor
 	 */
-	public static function init(): void {
+	public static function hooks(): void {
 
 		// Styles.
 		add_action( 'wp_enqueue_scripts', [ self::class, 'public_styles' ] );
@@ -110,5 +110,3 @@ class Assets {
 
 	}
 }
-
-Assets::init();
