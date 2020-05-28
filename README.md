@@ -24,6 +24,89 @@ To get started developing a plugin, perform the following steps:
 
 ## Development How-tos
 
+### How to add block editor support
+We often find ourselves having to add block support for a plugin that offers a few additional block editor blocks.
+
+To make this simple, we have abstracted a composer library, (Block Plugin Support)[https://github.com/bernskioldmedia/Block-Plugin-Support], that contains a Trait with helper functions.
+
+1. First, require the composer package `composer require bernskioldmedia/block-plugin-support`.
+2. In `plugin.php` add the `use Has_Blocks` trait.
+3. Add the `public function blocks(): void` method to the Plugin class (see below).
+4. Load the blocks by adding `$this->load_blocks( $prefix )` to your `__construct()` method. The prefix is the same one that is defined in every block name. We often use `bm`.
+5. In your `webpack.mix.js` file, add the block source files to the build process (see below).
+
+#### Where to place blocks?
+Block code is expected to be placed in the `src/blocks` directory. With a sub-folder for each block.
+
+#### How to register a block
+Each block needs to be registered in the `blocks()` method of the Plugin class. There are three scenarios that are supported:
+
+```
+// Add a pure JavaScript block.
+$this->add_block( 'block-name' );
+
+// Add a PHP rendered block.
+$this->add_block( 'block-name', [
+	'render_callback' => [ Block_Class::class, 'render' ],
+	'attributes' => Block_Class::get_attributes(),
+] );
+
+// Add a block if a class exists.
+// $attributes is only necessary for PHP rendered blocks.
+$this->add_block_if( 'Class_Name', 'block-name', $attributes );
+```
+
+#### Block Folder Structure
+As a general guideline, each block should have the following structure. We prefer splitting into more files for cleanliness and brevity.
+
+```
+block-name.js
+edit.js
+icon.js
+inspector.js
+save.js
+```
+
+If it is a PHP-rendered block, you should have a `blockname-block.php` file too.
+
+#### Server-side Rendered Block Base
+For a server-side rendered block, we have a base block class that provides helpful methods. This is provided by the Block Plugin Support library.
+
+This is how a bare block class could look, inheriting methods from the abstract Block class:
+
+```
+use BernskioldMedia\WP\Block_Plugin_Support\Block;
+
+class My_Thing_Block extends Block {
+
+	/**
+	 * Since this is a dynamically generated block, we
+	 * define the attributes here using PHP.
+	 *
+	 * @var array
+	 */
+	protected static $attributes = [];
+
+	/**
+	 * Render the content
+	 *
+	 * @param  array  $attributes
+	 *
+	 * @return false|string
+	 */
+	 public static function render( $attributes ): string {
+
+	 	ob_start();
+	 	?>
+	 		<!-- My HTML Output Here -->
+	 	<?php
+	 	return ob_get_clean();
+
+	 }
+
+}
+```
+
 ### How to add a Data Store
 Adding a new data store is simple. The scaffold has built-in support for both taxonomies and custom post types.
 Both of these share common methods from the `Abstracts\Data_Store_WP` class, and then type-specific common
