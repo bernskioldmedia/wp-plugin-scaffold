@@ -14,7 +14,7 @@
     "setup": "composer install && npm install && npm run build",
     "build": "npm run prod && npm run i18n",
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
+    "watch": "npm run dev -- --watch",
     "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "lint": "npm run lint:styles && npm run lint:scripts && npm run lint:php",
     "lint:styles": "cross-env stylelint './assets/styles/src/**/*.scss' --syntax scss",
