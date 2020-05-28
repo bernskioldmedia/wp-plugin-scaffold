@@ -21,7 +21,14 @@ defined( 'ABSPATH' ) || exit;
 class CPT extends Data {
 
 	/**
-	 * Get Customer Name
+	 * Reference to the data store.
+	 *
+	 * @var string
+	 */
+	protected static $data_store = \BernskioldMedia\WP\PluginScaffold\Data_Stores\CPT::class;
+
+	/**
+	 * Get Name
 	 *
 	 * @return string
 	 */

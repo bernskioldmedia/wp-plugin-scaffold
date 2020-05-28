@@ -35,6 +35,23 @@ class CPT extends Abstracts\Custom_Post_Type {
 	protected static $plural_key = 'cpts';
 
 	/**
+	 * Class name of the data class.
+	 *
+	 * @var string
+	 */
+	protected static $data_class = \BernskioldMedia\WP\PluginScaffold\Data\CPT::class;
+
+	/**
+	 * Array of metadata (field) keys.
+	 * Should map the getter/setter names in the data class.
+	 *
+	 * Will automatically be made available in the rest endpoint
+	 *
+	 * @var array
+	 */
+	public static $metadata = [];
+
+	/**
 	 * Register Post Type
 	 *
 	 * @see https://codex.wordpress.org/Function_Reference/register_post_type
@@ -100,6 +117,7 @@ class CPT extends Abstracts\Custom_Post_Type {
 			'delete_with_user'    => null,
 			'show_in_rest'        => true, // Required for Gutenberg.
 			'capabilities'        => self::get_capabilities(),
+			'map_meta_cap'        => true,
 		];
 
 		register_post_type( self::get_key(), $args );
