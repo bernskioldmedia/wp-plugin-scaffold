@@ -20,7 +20,7 @@
     "lint:styles": "cross-env stylelint './assets/styles/src/**/*.scss' --syntax scss",
     "lint:scripts": "cross-env eslint './assets/scripts/src/**/*.js'",
     "lint:php": "composer run lint",
-    "format": "npm run format-js",
+    "format": "npm run format:js",
     "format:js": "eslint --fix assets/scripts/src",
     "i18n": "npm run i18n:textdomain && npm run i18n:pot",
     "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules --type theme",
