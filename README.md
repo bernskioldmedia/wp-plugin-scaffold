@@ -116,6 +116,23 @@ In the `src/data-stores` folder, you will find examples of a custom post type an
 
 There are a number of "magic methods" available to define in the data store which are registered and hooked in peroperly if they are defined in your data store class.
 
+Finally, when you are ready to load it, add the Data Store class reference to the `$data_stores` property in the main Plugin class, like this:
+
+```
+use Namespace\Data_Stores;
+
+class Plugin {
+
+	// Other code...
+
+	public static $data_stores = [
+		Data_Stores\My_Data_Store::class,
+	];
+
+}
+
+```
+
 #### Adding ACF Fields
 By adding a `public static function fields()` to the data store and defining the ACF fields there using PHP, the structure will automatically hook them into the right load order.
 
