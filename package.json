@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "main": "assets/scripts/src/index.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "scripts": {
     "test": "phpunit",
     "release": "npm install && composer install --no-dev -o && npm run build",
@@ -32,14 +27,6 @@
     "url": "https://bernskioldmedia.com",
     "role": "developer"
   },
-  "lint-staged": {
-    "*.css": [
-      "stylelint"
-    ],
-    "*.js": [
-      "eslint"
-    ]
-  },
   "devDependencies": {
     "@wordpress/eslint-plugin": "^4.1",
     "babel-preset-react": "^6.24",
@@ -47,25 +34,23 @@
     "browser-sync-webpack-plugin": "^2.2",
     "cross-env": "^6.0",
     "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1",
-    "eslint-config-airbnb-base": "^14.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.10",
     "eslint-loader": "^3.0",
-    "eslint-plugin-import": "^2.20",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsdoc": "^22.1",
-    "eslint-plugin-jsx-a11y": "^6.2",
-    "eslint-plugin-prettier": "^3.1",
-    "eslint-plugin-react": "^7.19",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.5",
-    "husky": "^3.1",
-    "lint-staged": "^9.5.0",
     "laravel-mix": "^5.0",
     "node-wp-i18n": "^1.2",
     "postcss-custom-properties": "^9.1",
     "postcss-preset-env": "^6.7",
-    "sass": "^1.26",
-    "sass-loader": "^8.0",
     "prettier": "^2.0",
+    "sass": "^1.26.9",
+    "sass-loader": "^8.0",
     "stylelint": "^9.10",
     "stylelint-config-wordpress": "^14.0",
     "stylelint-declaration-use-variable": "^1.7",
