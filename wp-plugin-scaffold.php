@@ -16,8 +16,18 @@ use BernskioldMedia\WP\PluginScaffold\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Autoloader
+ */
 require_once 'autoloader.php';
-require 'vendor/autoload.php';
+
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
+}
+
+if ( file_exists( WP_CONTENT_DIR . '/vendor/autoload.php' ) ) {
+	require_once WP_CONTENT_DIR . '/vendor/autoload.php';
+}
 
 /**
  * Basic Constants

@@ -9,7 +9,7 @@
 
 namespace BernskioldMedia\WP\PluginScaffold\Data;
 
-use BernskioldMedia\WP\PluginScaffold\Abstracts\Data;
+use BernskioldMedia\WP\PluginBase\Abstracts\Data;
 
 defined( 'ABSPATH' ) || exit;
 

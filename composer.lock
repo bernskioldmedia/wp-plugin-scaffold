@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c091293a0291414f813b45a6ec5e3a0",
+    "content-hash": "5d78dbbc0529e2080bddbfa5b549e4b6",
     "packages": [
+        {
+            "name": "bernskioldmedia/wp-plugin-base",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "/Users/erikbernskiold/Development/composer-packages/wp-plugin-base",
+                "reference": "0b1c221441f2b71345ea801fa01c1320823d3111"
+            },
+            "require": {
+                "monolog/monolog": "~1.25",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "10up/wp_mock": "dev-master",
+                "bernskioldmedia/phpcs-wordpress": "dev-master",
+                "phpunit/phpunit": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BernskioldMedia\\WP\\PluginBase\\": "src/"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "phpcs ."
+                ],
+                "lint-fix": [
+                    "phpcbf ."
+                ]
+            },
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Bernskiold Media",
+                    "email": "info@bernskioldmedia.com",
+                    "role": "agency",
+                    "homepage": "https://bernskioldmedia.com"
+                }
+            ],
+            "description": "A WordPress plugin base that contains helpful base classes and functions that we can extend upon when developing WordPress plugins.",
+            "transport-options": {
+                "relative": false
+            }
+        },
         {
             "name": "composer/installers",
             "version": "v1.9.0",
@@ -218,6 +265,16 @@
                 "logging",
                 "psr-3"
             ],
+            "funding": [
+                {
+                    "url": "https://github.com/Seldaek",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-22T07:31:27+00:00"
         },
         {
@@ -359,7 +416,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:bernskioldmedia/phpcs-wordpress.git",
+                "url": "https://github.com/bernskioldmedia/phpcs-wordpress.git",
                 "reference": "823f37f295b6ce5ccdb53071ace8babc5d4b5eb6"
             },
             "dist": {
@@ -375,28 +432,10 @@
                 "wp-coding-standards/wpcs": "*"
             },
             "type": "phpcodesniffer-standard",
-            "scripts": {
-                "config-cs": [
-                    "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-                    "\"vendor/bin/phpcs\" --config-set default_standard BM-Default"
-                ],
-                "post-install-cmd": [
-                    "@config-cs"
-                ],
-                "post-update-cmd": [
-                    "@config-cs"
-                ],
-                "lint": [
-                    "\"vendor/bin/phpcs\" . "
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "support": {
-                "source": "https://github.com/bernskioldmedia/phpcs-wordpress/tree/master",
-                "issues": "https://github.com/bernskioldmedia/phpcs-wordpress/issues"
-            },
             "time": "2020-05-23T19:08:33+00:00"
         },
         {
@@ -2403,6 +2442,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "bernskioldmedia/wp-plugin-base": 20,
         "10up/wp_mock": 20,
         "bernskioldmedia/phpcs-wordpress": 20
     },
