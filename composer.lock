@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d78dbbc0529e2080bddbfa5b549e4b6",
+    "content-hash": "dd599c89e38837052ac201e1cf6bbdcc",
     "packages": [
         {
             "name": "bernskioldmedia/wp-plugin-base",
-            "version": "dev-master",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bernskioldmedia/wp-plugin-base.git",
+                "reference": "3d32c0df1623390323d73773ff8da0dda036dff4"
+            },
             "dist": {
-                "type": "path",
-                "url": "/Users/erikbernskiold/Development/composer-packages/wp-plugin-base",
-                "reference": "0b1c221441f2b71345ea801fa01c1320823d3111"
+                "type": "zip",
+                "url": "https://api.github.com/repos/bernskioldmedia/wp-plugin-base/zipball/3d32c0df1623390323d73773ff8da0dda036dff4",
+                "reference": "3d32c0df1623390323d73773ff8da0dda036dff4",
+                "shasum": ""
             },
             "require": {
                 "monolog/monolog": "~1.25",
@@ -29,14 +35,7 @@
                     "BernskioldMedia\\WP\\PluginBase\\": "src/"
                 }
             },
-            "scripts": {
-                "lint": [
-                    "phpcs ."
-                ],
-                "lint-fix": [
-                    "phpcbf ."
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+"
             ],
@@ -44,14 +43,12 @@
                 {
                     "name": "Bernskiold Media",
                     "email": "info@bernskioldmedia.com",
-                    "role": "agency",
-                    "homepage": "https://bernskioldmedia.com"
+                    "homepage": "https://bernskioldmedia.com",
+                    "role": "agency"
                 }
             ],
             "description": "A WordPress plugin base that contains helpful base classes and functions that we can extend upon when developing WordPress plugins.",
-            "transport-options": {
-                "relative": false
-            }
+            "time": "2020-07-05T13:21:07+00:00"
         },
         {
             "name": "composer/installers",
@@ -2442,7 +2439,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bernskioldmedia/wp-plugin-base": 20,
         "10up/wp_mock": 20,
         "bernskioldmedia/phpcs-wordpress": 20
     },
