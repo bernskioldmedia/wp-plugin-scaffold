@@ -17,9 +17,9 @@
     "lint:php": "composer run lint",
     "format": "npm run format:js",
     "format:js": "eslint --fix assets/scripts/src",
-    "i18n": "npm run i18n:textdomain && npm run i18n:pot",
-    "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules --type plugin",
-    "i18n:pot": "npx wpi18n makepot  --domain-path ./languages/"
+    "i18n": "npm run i18n:pot",
+    "i18n:pot": "wp i18n make-pot . ./languages/wp-plugin-scaffold.pot --exclude=\"src/*.js\"\n",
+    "i18n:makejed": " wp i18n make-json languages --no-purge"
   },
   "author": {
     "name": "Bernskiold Media",

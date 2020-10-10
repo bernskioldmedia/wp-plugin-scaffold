@@ -22,7 +22,7 @@ class Plugin extends Base_Plugin {
 	 *
 	 * @var string
 	 */
-	protected static $version = '1.0.0';
+	protected static $version = 'VERSION';
 
 	/**
 	 * Database Version
@@ -36,7 +36,7 @@ class Plugin extends Base_Plugin {
 	 *
 	 * @var string
 	 */
-	protected static $textdomain = 'bm-block-library';
+	protected static $textdomain = 'wp-plugin-scaffold';
 
 	/**
 	 * Main plugin file path.
@@ -70,7 +70,7 @@ class Plugin extends Base_Plugin {
 	public function __construct() {
 		parent::__construct();
 
-		register_activation_hook( WP_PLUGIN_SCAFFOLD_FILE_PATH, [ Install::class, 'install' ] );
+		register_activation_hook( self::$plugin_file_path, [ Install::class, 'install' ] );
 
 		$this->boot_data_stores();
 

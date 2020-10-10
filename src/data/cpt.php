@@ -18,14 +18,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @package BernskioldMedia\WP\PluginScaffold
  */
-class CPT extends Data {
+class Cpt extends Data {
 
 	/**
 	 * Reference to the data store.
 	 *
 	 * @var string
 	 */
-	protected static $data_store = \BernskioldMedia\WP\PluginScaffold\Data_Stores\CPT::class;
+	protected static $data_store = \BernskioldMedia\WP\PluginScaffold\Data_Stores\Cpt::class;
 
 	/**
 	 * Get Name

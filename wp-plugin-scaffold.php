@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Plugin Scaffold
- * Plugin URI:  https://bernskioldmedia.com
+ * Plugin URI:  https://website.com
  * Description: A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.
  * Version:     1.0.0
  * Author:      Bernskiold Media
@@ -19,8 +19,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Autoloader
  */
-require_once 'autoloader.php';
-
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
