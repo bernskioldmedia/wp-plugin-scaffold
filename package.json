@@ -4,6 +4,7 @@
   "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "main": "assets/scripts/src/index.js",
   "scripts": {
+    "init": "./bin/init.sh",
     "test": "phpunit",
     "release": "npm install && composer install --no-dev -o && npm run prod",
     "setup": "composer install && npm install && npm run build",
