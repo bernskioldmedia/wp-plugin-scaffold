@@ -4,7 +4,7 @@ namespace BernskioldMedia\WP\PluginScaffold;
 
 use BernskioldMedia\WP\PluginBase\Abstracts\Base_Plugin;
 use BernskioldMedia\WP\PluginBase\Traits\Has_Data_Stores;
-use BernskioldMedia\WP\PluginScaffold\Rest\REST_Example;
+use BernskioldMedia\WP\PluginScaffold\Rest\Rest_Example;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -52,7 +52,7 @@ class Plugin extends Base_Plugin {
 	 */
 	public static $data_stores = [
 		Data_Stores\Taxonomy::class,
-		Data_Stores\CPT::class,
+		Data_Stores\Cpt::class,
 	];
 
 	/**
@@ -61,7 +61,7 @@ class Plugin extends Base_Plugin {
 	 * @var string[]
 	 */
 	public static $rest_endpoints = [
-		REST_Example::class,
+		Rest_Example::class,
 	];
 
 	/**
