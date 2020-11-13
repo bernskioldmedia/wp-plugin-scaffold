@@ -36,7 +36,7 @@ read -p "Press enter to get started." GET_STARTED
 
 echo "${BOLD}What do you want the plugin to be called? $RED(required)$RESET"
 echo "Note: This is a human readable name, not the slug."
-read -p "Theme Name: " PLUGIN_NAME
+read -p "Plugin Name: " PLUGIN_NAME
 PLUGIN_SLUG=$(slugify "$PLUGIN_NAME")
 PLUGIN_SLUG_UNDERSCORES=$(echo "$PLUGIN_SLUG" | sed 's|-|_|g')
 
@@ -44,7 +44,7 @@ echo "${BOLD}What's the name of the client? $RED(required)$RESET"
 read -p "Client Name: " CLIENT_NAME
 
 echo "${BOLD}Give the plugin a description that will be public? $RED(required)$RESET"
-read -p "Theme Description []: " PLUGIN_DESCRIPTION
+read -p "Plugin Description []: " PLUGIN_DESCRIPTION
 
 echo "${BOLD}Give the plugin a URL where it will be used. Often the client's website URL. $RED(required)$RESET"
 read -p "Plugin URL: " PLUGIN_URL
