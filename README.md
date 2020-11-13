@@ -15,6 +15,8 @@ To get started developing a plugin, perform the following steps:
 2. Run the setup script `npm run init`. It'll prompt you for a series of configuration questions and then set everything up.
 3. Remove this setion from the README and update it to be more specific about the plugin project.
 
+Note: When you run `npm run init` it should set the setup-script in the bin folder as executable on your system. If you still get permission denied errors, make it executable by running `chmod +x ./bin/init.sh`
+
 ## Development How-tos
 
 ### How to add block editor support
