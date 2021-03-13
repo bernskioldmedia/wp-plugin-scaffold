@@ -5,12 +5,12 @@
  * which can otherwise be quite complicated. Mix is super simple and
  * works very well.
  *
- * @link https://laravel.com/docs/5.6/mix
+ * @link https://laravel.com/docs/6.0/mix
  *
  * @author  Bernskiold Media <info@bernskioldmedia.com>
  **/
 
-const mix = require( "laravel-mix" );
+const mix = require( 'laravel-mix' );
 
 /**************************************************************
  * Build Process
@@ -20,28 +20,18 @@ const mix = require( "laravel-mix" );
  *************************************************************/
 
 /*
- * Asset Directory Path
- */
-const assetPaths = {
-	scripts: "assets/scripts",
-	styles: "assets/styles",
-	images: "assets/images",
-	fonts: "assets/fonts"
-};
-
-/*
  * Default Options for CSS Processing
  *
- * @link https://laravel-mix.com/docs/5.0/css-preprocessors
+ * @link https://laravel-mix.com/docs/6.0/css-preprocessors
  */
 mix.options( {
 	processCssUrls: false,
 	postCss: [
-		require( "postcss-preset-env" )( {
+		require( 'postcss-preset-env' )( {
 			stage: 3,
 			browsers: [
-				"> 1%",
-				"last 2 versions"
+				'> 1%',
+				'last 2 versions'
 			]
 		} )
 	]
@@ -51,95 +41,47 @@ mix.options( {
  * Builds sources maps for assets.
  * if we are not in production.
  *
- * @link https://laravel.com/docs/5.6/mix#css-source-maps
+ * @link https://laravel.com/docs/6.0/mix#css-source-maps
  */
 if ( ! mix.inProduction() ) {
 	mix.sourceMaps();
 }
 
 /**
- * Internal JavaScript
+ * JavaScript
  */
-mix.js(
-	`${assetPaths.scripts}/src/index.js`,
-	`${assetPaths.scripts}/dist/app.js`
-   )
-   .js(
-	   `${assetPaths.scripts}/src/admin.js`,
-	   `${assetPaths.scripts}/dist/admin-app.js`
-   );
-
-/**
- * Vendor JavaScript
- */
-/*****
- mix.js( [
-	"node_modules/@fortawesome/fontawesome-pro/js/all.js"
-], `${assetPaths.scripts}/dist/vendor.js` );
- *****/
+// mix.js( 'assets/scripts/src/index.js', 'assets/scripts/dist/app.js' );
+// mix.js( 'assets/scripts/src/admin.js', 'assets/scripts/dist/admin-app.js' );
 
 /*
  * Process the SCSS
  *
- * @link https://laravel-mix.com/docs/5.0/css-preprocessors
+ * @link https://laravel-mix.com/docs/6.0/css-preprocessors
  * @link https://github.com/sass/dart-sass#javascript-api
  */
 const sassConfig = {
 	sassOptions: {
-		outputStyle: "compressed"
+		outputStyle: 'compressed'
 	}
 };
 
-// Process the scss files.
-mix.sass(
-	`${assetPaths.styles}/src/app.scss`,
-	`${assetPaths.styles}/dist`,
-	sassConfig
-   )
-   .sass(
-	   `${assetPaths.styles}/src/admin.scss`,
-	   `${assetPaths.styles}/dist`,
-	   sassConfig
-   );
-
-// Process a version for IE11.
-if ( mix.inProduction() ) {
-	mix.sass(
-		`${assetPaths.styles}/src/app-ie11.scss`,
-		`${assetPaths.styles}/dist`,
-		sassConfig,
-		[
-			require( "postcss-custom-properties" )(),
-			require( "postcss-preset-env" )( {
-				stage: 4,
-				browsers: [
-					"> 1%",
-					"last 2 versions",
-					"ie >= 11"
-				],
-				autoprefixer: { grid: true }
-			} )
-		]
-	);
-}
+// mix.sass( 'assets/styles/src/app.scss', 'assets/styles/dist/app.css', sassConfig );
+// mix.sass( 'assets/styles/src/admin.scss', 'assets/styles/dist/admin.css', sassConfig );
 
 /*
  * Custom Webpack Config
  *
- * @link https://laravel.com/docs/6.x/mix#custom-webpack-configuration
+ * @link https://laravel.com/docs/8.x/mix#custom-webpack-configuration
  * @link https://webpack.js.org/configuration/
  */
 mix.webpackConfig( {
-	mode: mix.inProduction() ? "production":"development",
-	devtool: mix.inProduction() ? "":"cheap-source-map",
-	stats: "minimal",
+	mode: mix.inProduction() ? 'production' : 'development',
+	devtool: mix.inProduction() ? '' : 'cheap-source-map',
+	stats: 'minimal',
 	performance: {
 		hints: false
 	},
 	externals: {
-		jquery: "jQuery"
+		jquery: 'jQuery'
 	},
-	watchOptions: {
-		ignored: /node_modules/
-	}
 } );
