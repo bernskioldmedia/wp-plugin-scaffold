@@ -10,6 +10,14 @@ node_modules/
 # Ignore .idea
 .idea
 
+# Ignore Vendor
+/vendor/
+/vendor_prefixed/*
+!vendor_prefixed/.gitkeep
+
+*.LICENSE.txt
+*.js.map
+
 # Compiled source #
 ###################
 *.com
@@ -47,4 +55,3 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
-/vendor/
