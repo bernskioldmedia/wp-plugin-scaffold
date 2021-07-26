@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5337587c788ea10511858fc30d7ad2ef",
+    "content-hash": "556a1f5d459ad0f627977bfb2d28f221",
     "packages": [
         {
             "name": "bernskioldmedia/wp-plugin-base",
-            "version": "2.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bernskioldmedia/wp-plugin-base.git",
-                "reference": "21d591f63605c8bcf46ae236dc2d207390a5be78"
+                "reference": "e1deccdd502dc9b5ba4c0b02539683df415ecb45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bernskioldmedia/wp-plugin-base/zipball/21d591f63605c8bcf46ae236dc2d207390a5be78",
-                "reference": "21d591f63605c8bcf46ae236dc2d207390a5be78",
+                "url": "https://api.github.com/repos/bernskioldmedia/wp-plugin-base/zipball/e1deccdd502dc9b5ba4c0b02539683df415ecb45",
+                "reference": "e1deccdd502dc9b5ba4c0b02539683df415ecb45",
                 "shasum": ""
             },
             "require": {
@@ -26,6 +26,7 @@
                 "symfony/console": "^4.0|^5.0",
                 "symfony/process": "^4.0|^5.0"
             },
+            "default-branch": true,
             "bin": [
                 "bin/forge"
             ],
@@ -50,9 +51,9 @@
             "description": "A WordPress plugin base that contains helpful base classes and functions that we can extend upon when developing WordPress plugins.",
             "support": {
                 "issues": "https://github.com/bernskioldmedia/wp-plugin-base/issues",
-                "source": "https://github.com/bernskioldmedia/wp-plugin-base/tree/2.2.0"
+                "source": "https://github.com/bernskioldmedia/wp-plugin-base/tree/master"
             },
-            "time": "2021-07-24T08:47:26+00:00"
+            "time": "2021-07-26T13:40:25+00:00"
         },
         {
             "name": "composer/installers",
@@ -1650,6 +1651,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "bernskioldmedia/wp-plugin-base": 20,
         "bernskioldmedia/phpcs-wordpress": 20
     },
     "prefer-stable": true,

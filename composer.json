@@ -8,7 +8,7 @@
   "prefer-stable": true,
   "minimum-stability": "dev",
   "require": {
-    "bernskioldmedia/wp-plugin-base": "^2.0",
+    "bernskioldmedia/wp-plugin-base": "dev-master",
     "composer/installers": "~1.0",
     "php": "^7.4|^8.0"
   },

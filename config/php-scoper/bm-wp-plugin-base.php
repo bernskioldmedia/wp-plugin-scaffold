@@ -8,6 +8,8 @@ return [
 
 	'exclude-constants' => [
 		'ABSPATH',
+		'LOGGING_LEVEL',
+		'ENABLE_LOGGING',
 	],
 	'exclude-classes'   => [
 		'AC\ListScreenRepository\Rules',
