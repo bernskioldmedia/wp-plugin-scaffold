@@ -61,6 +61,14 @@ abstract class AssetManager implements Hookable
      */
     protected static array $admin_styles = [];
     /**
+     * Define the action priority for the asset registration.
+     */
+    protected static int $register_priority = 10;
+    /**
+     * Defines the action priority for the asset enqueueing.
+     */
+    protected static int $enqueue_priority = 100;
+    /**
      * Hook in functions for auto-registering the styles
      * from the arrays, as well as auto-loading of
      * the four enqueue functions if present.
@@ -71,31 +79,31 @@ abstract class AssetManager implements Hookable
          * Register
          */
         if (!empty(static::$public_scripts)) {
-            add_action('wp_enqueue_scripts', [self::class, 'register_public_scripts']);
+            add_action('wp_enqueue_scripts', [self::class, 'register_public_scripts'], static::$register_priority);
         }
         if (!empty(static::$admin_scripts)) {
-            add_action('admin_enqueue_scripts', [self::class, 'register_admin_scripts']);
+            add_action('admin_enqueue_scripts', [self::class, 'register_admin_scripts'], static::$register_priority);
         }
         if (!empty(static::$public_styles)) {
-            add_action('wp_enqueue_scripts', [self::class, 'register_public_styles']);
+            add_action('wp_enqueue_scripts', [self::class, 'register_public_styles'], static::$register_priority);
         }
         if (!empty(static::$admin_styles)) {
-            add_action('admin_enqueue_scripts', [self::class, 'register_admin_styles']);
+            add_action('admin_enqueue_scripts', [self::class, 'register_admin_styles'], static::$register_priority);
         }
         /**
          * Enqueue
          */
         if (\method_exists(static::class, 'enqueue_public_scripts')) {
-            add_action('wp_enqueue_scripts', [self::class, 'enqueue_public_scripts']);
+            add_action('wp_enqueue_scripts', [self::class, 'enqueue_public_scripts'], static::$enqueue_priority);
         }
         if (\method_exists(static::class, 'enqueue_admin_scripts')) {
-            add_action('admin_enqueue_scripts', [self::class, 'enqueue_admin_scripts']);
+            add_action('admin_enqueue_scripts', [self::class, 'enqueue_admin_scripts'], static::$enqueue_priority);
         }
         if (\method_exists(static::class, 'enqueue_public_styles')) {
-            add_action('wp_enqueue_scripts', [self::class, 'enqueue_public_styles']);
+            add_action('wp_enqueue_scripts', [self::class, 'enqueue_public_styles'], static::$enqueue_priority);
         }
         if (\method_exists(static::class, 'enqueue_admin_styles')) {
-            add_action('admin_enqueue_scripts', [self::class, 'enqueue_admin_styles']);
+            add_action('admin_enqueue_scripts', [self::class, 'enqueue_admin_styles'], static::$enqueue_priority);
         }
     }
     /**
@@ -144,7 +152,7 @@ abstract class AssetManager implements Hookable
                 $dependencies = $meta['dependencies'] ?? [];
                 $version = $meta['version'] ?? [];
             }
-            wp_register_script('wpps-' . $name, BasePlugin::get_url($subfolder . '/' . $name . '.js'), $dependencies, $version, $in_footer);
+            wp_register_script($name, BasePlugin::get_url($subfolder . '/' . $name . '.js'), $dependencies, $version, $in_footer);
         }
     }
     /**
@@ -157,15 +165,15 @@ abstract class AssetManager implements Hookable
                 $version = $data['version'] ?? BasePlugin::get_version();
                 $dependencies = $data['dependencies'] ?? [];
                 $subfolder = $data['subfolder'] ?? '';
-                $media = $data['media'] ?? \true;
+                $media = $data['media'] ?? 'all';
             } else {
                 $subfolder = $data;
-                $media = 'screen';
+                $media = 'all';
                 $meta = (require_once BasePlugin::get_path($subfolder . '/' . $name . '.asset.php'));
                 $dependencies = $meta['dependencies'] ?? [];
                 $version = $meta['version'] ?? [];
             }
-            wp_register_style('wpps-' . $name, BasePlugin::get_url($subfolder . '/' . $name . '.js'), $dependencies, $version, $media);
+            wp_register_style($name, BasePlugin::get_url($subfolder . '/' . $name . '.js'), $dependencies, $version, $media);
         }
     }
 }

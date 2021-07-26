@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bernskioldmedia/wp-plugin-base.git",
-                "reference": "e1deccdd502dc9b5ba4c0b02539683df415ecb45"
+                "reference": "e9b3a7a20eeb493e91ae17d3775cce80e657345b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bernskioldmedia/wp-plugin-base/zipball/e1deccdd502dc9b5ba4c0b02539683df415ecb45",
-                "reference": "e1deccdd502dc9b5ba4c0b02539683df415ecb45",
+                "url": "https://api.github.com/repos/bernskioldmedia/wp-plugin-base/zipball/e9b3a7a20eeb493e91ae17d3775cce80e657345b",
+                "reference": "e9b3a7a20eeb493e91ae17d3775cce80e657345b",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "issues": "https://github.com/bernskioldmedia/wp-plugin-base/issues",
                 "source": "https://github.com/bernskioldmedia/wp-plugin-base/tree/master"
             },
-            "time": "2021-07-26T13:40:25+00:00"
+            "time": "2021-07-26T14:06:40+00:00"
         },
         {
             "name": "composer/installers",
