@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="BM PHPCS">
-	<description>BM PHPCS extended.</description>
-
-	<rule ref="BM-Default" />
-</ruleset>

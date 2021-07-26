@@ -2,15 +2,17 @@
   "name": "bernskioldmedia/wp-plugin-scaffold",
   "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "type": "wordpress-plugin",
+  "config": {
+    "sort-packages": true
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
   "require": {
-    "bernskioldmedia/wp-plugin-base": "^1.0",
+    "bernskioldmedia/wp-plugin-base": "^2.0",
     "composer/installers": "~1.0",
-    "monolog/monolog": "~1.25",
-    "php": ">=7.2"
+    "php": "^7.4|^8.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.2",
-    "10up/wp_mock": "dev-master",
     "bernskioldmedia/phpcs-wordpress": "dev-master"
   },
   "license": "GPL-3.0+",
@@ -23,10 +25,20 @@
   "autoload": {
     "psr-4": {
       "BernskioldMedia\\WP\\PluginScaffold\\": "src/"
-    }
+    },
+    "classmap": [
+      "vendor_prefixed/"
+    ]
   },
   "scripts": {
-    "lint": "phpcs .",
-    "lint-fix": "phpcbf ."
+    "build": [
+      "composer prefix-dependencies",
+      "composer dump-autoload"
+    ],
+    "prefix-dependencies": [
+      "composer require humbug/php-scoper:dev-master --dev -W",
+      "php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=WPPS_Vendor --config config/php-scoper/bm-wp-plugin-base.php --output-dir vendor_prefixed/bernskioldmedia/wp-plugin-base --force",
+      "composer remove humbug/php-scoper --dev"
+    ]
   }
 }

@@ -1,4 +1,4 @@
 assets/scripts/dist/**/*.js
 assets/scripts/vendor
 assets/scripts/dist
-webpack.mix.js
+webpack.config.js
