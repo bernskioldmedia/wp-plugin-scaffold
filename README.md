@@ -38,6 +38,7 @@ Block code is expected to be placed in the `blocks/` directory. With a sub-folde
 As a general guideline, each block should have the following structure. We prefer splitting into more files for cleanliness and brevity.
 
 ```
+block.json
 index.js
 edit.js
 icon.js
