@@ -4,7 +4,9 @@ namespace BernskioldMedia\WP\PluginScaffold;
 
 use WPPS_Vendor\BernskioldMedia\WP\PluginBase\BasePlugin;
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Plugin extends BasePlugin {
 

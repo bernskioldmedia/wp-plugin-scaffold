@@ -9,7 +9,9 @@ namespace BernskioldMedia\WP\PluginScaffold;
 
 use WPPS_Vendor\BernskioldMedia\WP\PluginBase\Installer;
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Install extends Installer {
 

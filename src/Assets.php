@@ -12,7 +12,9 @@ namespace BernskioldMedia\WP\PluginScaffold;
 
 use WPPS_Vendor\BernskioldMedia\WP\PluginBase\AssetManager;
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Assets extends AssetManager {
 
