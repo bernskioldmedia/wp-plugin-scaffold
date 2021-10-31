@@ -14,17 +14,17 @@
 
 use BernskioldMedia\WP\PluginScaffold\Plugin;
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Autoloader
  */
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
-}
-
-if ( file_exists( WP_CONTENT_DIR . '/vendor/autoload.php' ) ) {
-	require_once WP_CONTENT_DIR . '/vendor/autoload.php';
+} else {
+	throw new Exception( 'Autoload does not exist. Please run composer install --no-dev -o.' );
 }
 
 /**
