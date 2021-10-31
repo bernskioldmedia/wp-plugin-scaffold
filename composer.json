@@ -3,17 +3,18 @@
   "description": "A WordPress plugin scaffold that we use at Bernskiold Media when developing client specific plugins.",
   "type": "wordpress-plugin",
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "optimize-autoloader": true
   },
   "prefer-stable": true,
   "minimum-stability": "dev",
   "require": {
-    "bernskioldmedia/wp-plugin-base": "^2.3.0",
-    "composer/installers": "~1.0",
-    "php": "^7.4|^8.0"
+    "php": "^7.4|^8.0",
+    "bernskioldmedia/wp-plugin-base": "^2.4.0",
+    "composer/installers": "~1.0"
   },
   "require-dev": {
-    "bernskioldmedia/phpcs-wordpress": "dev-master"
+    "bernskioldmedia/bm-wp-devtools": "dev-main"
   },
   "license": "GPL-3.0+",
   "authors": [
@@ -31,6 +32,14 @@
     ]
   },
   "scripts": {
+    "lint": "php-cs-fixer fix -v",
+    "test:cs": "phpcs-wp",
+    "test:types": "phpstan analyse --ansi --memory-limit=-1",
+    "test:lint": "php-cs-fixer fix -v --dry-run",
+    "test": [
+      "@test:lint",
+      "@test:types"
+    ],
     "build": [
       "composer prefix-dependencies",
       "composer dump-autoload"
