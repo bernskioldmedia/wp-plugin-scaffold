@@ -1,0 +1,8 @@
+#$ vendor/bin/phpstan analyze
+
+includes:
+    - vendor/bernskioldmedia/bm-wp-devtools/phpstan/extension.neon
+parameters:
+    paths:
+        - wp-plugin-scaffold.php
+        - src/
