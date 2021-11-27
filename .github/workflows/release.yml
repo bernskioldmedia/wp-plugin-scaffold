@@ -1,0 +1,32 @@
+name: Build Plugin
+on:
+  release:
+    types: [ published ]
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Build Project
+        run: |
+          composer run release
+          mkdir build
+          mkdir ${{ github.event.repository.name}}
+          rsync -rv . ${{ github.event.repository.name}} --exclude=${{ github.event.repository.name}} --exclude .git/ --exclude node_modules/ --exclude ".*" --exclude assets/styles/src/ --exclude composer.json --exclude composer.lock --exclude build/ --exclude config/ --exclude CHANGELOG.md --exclude README.md --exclude webpack.mix.js --exclude package.json --exclude package-lock.json --exclude phpstan.neon --exclude mix-manifest.json
+      - name: Create Artifact
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r build/${{ github.event.repository.name}}.zip ${{ github.event.repository.name}}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bm-wp-experience
+          path: build/bm-wp-experience.zip
+      - name: Add to Release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: build/${{ github.event.repository.name}}.zip application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
