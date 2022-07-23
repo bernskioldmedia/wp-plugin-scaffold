@@ -1,0 +1,72 @@
+name: Create Release
+on:
+    workflow_dispatch:
+        inputs:
+            versionName:
+                description: 'Version (ie 5.5.0)'
+                required: true
+
+jobs:
+    release:
+        name: Create Release
+        runs-on: ubuntu-latest
+        steps:
+        
+            - name: Checkout Code
+              uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
+              
+            - name: Setup Node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 14
+                  
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: npm-${{ hashFiles('package-lock.json') }}
+                  restore-keys: npm-
+              
+            - name: Modify Package.json
+              uses: mingjun97/file-regex-replace@v1
+              with:
+                  regex: '"version": "([0-9\.]*)",'
+                  replacement: '"version": "${{ github.event.inputs.versionName }}",'
+                  include: 'package\.json'
+                  
+            - name: Modify Main Plugin File
+              uses: mingjun97/file-regex-replace@v1
+              with:
+                  regex: 'Version:(\s+)(.+)'
+                  replacement: 'Version:$1${{ github.event.inputs.versionName }}'
+                  include: '${{ github.event.repository.name}}\.php'
+                  
+            - name: Modify Main Plugin Class
+              uses: mingjun97/file-regex-replace@v1
+              with:
+                  regex: "version(\\s*\\t*)= '(.*)';"
+                  replacement: "version$1= '${{ github.event.inputs.versionName }}';"
+                  include: 'src/Plugin\.php'
+                  
+            - name: Install NPM Packages
+              run: npm ci --ignore-scripts
+            
+            - name: Build
+              run: npm run build
+              
+            - name: Commit
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  branch: main
+                  commit_message: "Prepare release ${{ github.event.inputs.versionName }}"
+                  
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  draft: true
+                  prerelease: false
+                  name: ${{ github.event.inputs.versionName }}
+                  tag_name: ${{ github.event.inputs.versionName }}
+                  generate_release_notes: true
