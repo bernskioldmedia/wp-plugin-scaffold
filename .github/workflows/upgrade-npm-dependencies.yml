@@ -27,6 +27,9 @@ jobs:
       - name: Commit and create PR 🔀
         uses: peter-evans/create-pull-request@v3
         with:
-          title: 'build(deps): Upgrade NPM packages (automated)'
+          title: 'Upgrade NPM packages (automated)'
           branch: 'build-deps-upgrade-npm-packages-automated'
-          commit-message: 'build(deps): upgrade NPM packages (automated)'
+          commit-message: 'Upgrade NPM packages'
+          labels: dependencies,javascript
+          delete-branch: true
+          committer: BM Bot <noreply@bmedia.io>
