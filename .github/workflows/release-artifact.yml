@@ -22,8 +22,8 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: bm-wp-experience
-          path: build/bm-wp-experience.zip
+          name: ${{ github.event.repository.name}}
+          path: build/${{ github.event.repository.name}}.zip
       - name: Add to Release
         uses: JasonEtco/upload-to-release@master
         with:
